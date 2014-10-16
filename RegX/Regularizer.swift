@@ -91,6 +91,9 @@ public class Regularizer  {
             
             for i in 1..<match.numberOfRanges {
                 let range : NSRange = match.rangeAtIndex(i)
+                if range.location == NSNotFound {
+                    continue
+                }
                 let substring = (line as NSString).substringWithRange(range)
                 //let trimmedString = substring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
                 let resultString = substring
