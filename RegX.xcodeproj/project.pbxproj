@@ -6,13 +6,35 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C8BC35C619EEEBD500DFF3BB /* TestAlign.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35C519EEEBD500DFF3BB /* TestAlign.swift */; };
+		C8BC35C919EEECE800DFF3BB /* Regularizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35C819EEECE800DFF3BB /* Regularizer.swift */; };
+		C8BC35CA19EEFA4F00DFF3BB /* Regularizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35C819EEECE800DFF3BB /* Regularizer.swift */; };
+		C8BC35CC19EF243900DFF3BB /* RegularExpressionGroupSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */; };
+		C8BC35CD19EF26C400DFF3BB /* RegularExpressionGroupSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C84DFF0D19EE775100C64E17 /* RegX.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegX.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		C84DFF1119EE775100C64E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8BC35BB19EEEBB600DFF3BB /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8BC35BE19EEEBB600DFF3BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C8BC35C419EEEBD400DFF3BB /* UnitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		C8BC35C519EEEBD500DFF3BB /* TestAlign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAlign.swift; sourceTree = "<group>"; };
+		C8BC35C719EEECE800DFF3BB /* RegX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RegX-Bridging-Header.h"; sourceTree = "<group>"; };
+		C8BC35C819EEECE800DFF3BB /* Regularizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regularizer.swift; sourceTree = "<group>"; };
+		C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularExpressionGroupSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C84DFF0A19EE775100C64E17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8BC35B819EEEBB600DFF3BB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -26,6 +48,7 @@
 			isa = PBXGroup;
 			children = (
 				C84DFF0F19EE775100C64E17 /* RegX */,
+				C8BC35BC19EEEBB600DFF3BB /* UnitTests */,
 				C84DFF0E19EE775100C64E17 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -34,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				C84DFF0D19EE775100C64E17 /* RegX.bundle */,
+				C8BC35BB19EEEBB600DFF3BB /* UnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -42,6 +66,9 @@
 			isa = PBXGroup;
 			children = (
 				C84DFF1019EE775100C64E17 /* Supporting Files */,
+				C8BC35C819EEECE800DFF3BB /* Regularizer.swift */,
+				C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */,
+				C8BC35C719EEECE800DFF3BB /* RegX-Bridging-Header.h */,
 			);
 			path = RegX;
 			sourceTree = "<group>";
@@ -50,6 +77,24 @@
 			isa = PBXGroup;
 			children = (
 				C84DFF1119EE775100C64E17 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C8BC35BC19EEEBB600DFF3BB /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				C8BC35BD19EEEBB600DFF3BB /* Supporting Files */,
+				C8BC35C519EEEBD500DFF3BB /* TestAlign.swift */,
+				C8BC35C419EEEBD400DFF3BB /* UnitTests-Bridging-Header.h */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		C8BC35BD19EEEBB600DFF3BB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C8BC35BE19EEEBB600DFF3BB /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -74,6 +119,23 @@
 			productReference = C84DFF0D19EE775100C64E17 /* RegX.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		C8BC35BA19EEEBB600DFF3BB /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C8BC35C319EEEBB600DFF3BB /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				C8BC35B719EEEBB600DFF3BB /* Sources */,
+				C8BC35B819EEEBB600DFF3BB /* Frameworks */,
+				C8BC35B919EEEBB600DFF3BB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = C8BC35BB19EEEBB600DFF3BB /* UnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -84,6 +146,9 @@
 				ORGANIZATIONNAME = "Krunoslav Zaher";
 				TargetAttributes = {
 					C84DFF0C19EE775100C64E17 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					C8BC35BA19EEEBB600DFF3BB = {
 						CreatedOnToolsVersion = 6.1;
 					};
 				};
@@ -101,12 +166,20 @@
 			projectRoot = "";
 			targets = (
 				C84DFF0C19EE775100C64E17 /* RegX */,
+				C8BC35BA19EEEBB600DFF3BB /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C84DFF0B19EE775100C64E17 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8BC35B919EEEBB600DFF3BB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -120,6 +193,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8BC35C919EEECE800DFF3BB /* Regularizer.swift in Sources */,
+				C8BC35CC19EF243900DFF3BB /* RegularExpressionGroupSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C8BC35B719EEEBB600DFF3BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8BC35CA19EEFA4F00DFF3BB /* Regularizer.swift in Sources */,
+				C8BC35C619EEEBD500DFF3BB /* TestAlign.swift in Sources */,
+				C8BC35CD19EF26C400DFF3BB /* RegularExpressionGroupSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,11 +288,15 @@
 		C84DFF1519EE775100C64E17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = RegX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "RegX/RegX-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -215,12 +304,55 @@
 		C84DFF1619EE775100C64E17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = RegX/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "RegX/RegX-Bridging-Header.h";
 				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		C8BC35C119EEEBB600DFF3BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = UnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/UnitTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C8BC35C219EEEBB600DFF3BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = UnitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/UnitTests-Bridging-Header.h";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -241,6 +373,15 @@
 			buildConfigurations = (
 				C84DFF1519EE775100C64E17 /* Debug */,
 				C84DFF1619EE775100C64E17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C8BC35C319EEEBB600DFF3BB /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8BC35C119EEEBB600DFF3BB /* Debug */,
+				C8BC35C219EEEBB600DFF3BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
