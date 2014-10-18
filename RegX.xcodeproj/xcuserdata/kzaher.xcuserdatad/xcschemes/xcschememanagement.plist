@@ -12,12 +12,17 @@
 		<key>UnitTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>C84DFF0C19EE775100C64E17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C86692A719F1D3EA00582722</key>
 		<dict>
 			<key>primary</key>
 			<true/>

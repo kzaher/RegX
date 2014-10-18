@@ -10,36 +10,10 @@ import Foundation
 import XCTest
 
 class TestAlign: XCTestCase {
-    // https://www.debuggex.com/ <- use it
-    let nonterminatedVariable = "((?:\\s)*) (?# this is type declaration ->) ([^\\s](?:[^\\*]|(?:(?:(?<=/)\\*|\\*(?=/))))*\\s)  (?# this is variable declaration ->)    (?:\\s*)((?:(?<!/)(?!/)\\**)\\s*(?:\\w|\\d|_|-)+\\s*(?:;)?\\s*)"
-    
-    let macroRegex = "^" +
-        "(?: " +
-        "(?# this is define declaration ->)  " +
-        "(\\#\\s*define\\s) " +
-        "(?:\\s*) " +
-        "(?# macro name) " +
-        "(\\S+(?:\\s*\\([^\\)]*\\))?)\\s  " +
-        "(?# space)" +
-        "(?:\\s*) " +
-        "(?# macro value) (\\S.+) \\s*" +
-        ")" +
-        "|" +
-        "(?:" +
-        "(?# other declarations ->) " +
-        "(\\#\\s*\\S+\\s) (?:\\s*) (\\S*.*) " +
-        ")$" +
-    "";
-    
-    var propertyRegex : String = ""
-    var variableRegex : String = ""
-    var variableWithInitializer : String = ""
     
     override func setUp() {
-        variableRegex = "^\(nonterminatedVariable)$"
-        propertyRegex = "^(\\s*@property\\s*)(\\([^\\)]*)?(\\))?\\s" + nonterminatedVariable + "$"
-        variableWithInitializer = "^\(variableRegex)$"
-        super.setUp()
+        RegXPlugin.classCode()
+        super.tearDown()
     }
     
     override func tearDown() {
@@ -85,7 +59,7 @@ class TestAlign: XCTestCase {
             "        NSString            *hello; \n" +
             "        id<NSObject>        *hello2;\n" +
             "        id<NSObject>/**/    hello2; \n",
-            regex: variableRegex)
+            regex: RegXPlugin.Patterns.variableRegex)
     }
     
     
@@ -98,7 +72,7 @@ class TestAlign: XCTestCase {
             "#define A           1000    \n" +
             "#define B()         4000    \n" +
             "#define C (,,,er)   3000 + s\n",
-            regex:macroRegex)
+            regex:RegXPlugin.Patterns.macroRegex)
     }
     
     func testObjCAlignmentForDefines2() {
@@ -113,7 +87,7 @@ class TestAlign: XCTestCase {
                 "#   elif    CHERRY2 && VINE2\n" +
                 "# else      BERRY           \n" +
             "#endif\n",
-            regex:macroRegex)
+            regex:RegXPlugin.Patterns.macroRegex)
     }
     
     func testPropertyRegex() {
@@ -128,6 +102,6 @@ class TestAlign: XCTestCase {
             "   @property    (nonatomic, strong, readonly)   NSNumber                            *variable;  \n" +
             "   @property    (nonatomic, weak, copy      )   Fan                                 variable;   \n" +
             "",
-            regex:propertyRegex)
+            regex:RegXPlugin.Patterns.propertyRegex)
     }
 }
