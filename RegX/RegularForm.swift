@@ -9,12 +9,22 @@
 import Foundation
 import AppKit
 
+struct GroupSettings {
+    let paddingBefore: Int?
+    let paddingAfter: Int?
+    
+    init(_ paddingBefore: Int?, _ paddingAfter: Int?) {
+        self.paddingBefore = paddingBefore
+        self.paddingAfter = paddingAfter
+    }
+}
+
 struct RegularForm  {
     let name : String
     let pattern : String
     let shortcut : String
     let modifier : NSEventModifierFlags
-    let minSpaces : [Int]
+    let settings : [GroupSettings]
     
     func alignColumns(text: String, tabWidth: Int) -> String {
         var error : NSError?
@@ -23,6 +33,8 @@ struct RegularForm  {
                             options: NSRegularExpressionOptions.AllowCommentsAndWhitespace,
                               error: &error)
         
-        return Regularizer(tabWidth: tabWidth).regularize(text, minSpaces: minSpaces, regularExpression: regularExpression!)
+        return Regularizer(tabWidth: tabWidth).regularize(text,
+                           settings: settings,
+                  regularExpression: regularExpression!)
     }
 }

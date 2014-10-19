@@ -60,6 +60,20 @@ class TestAlign: XCTestCase {
             specifier: Configuration.forms[2])
     }
     
+    func testObjCTestAlignmentForVariablesAndComments() {
+        testOriginal(
+            "       NSString* wrong; // *a;\n" +
+            "       NSString *hello; // 12310238193* sdfs = 34;\n" +
+            "       id<NSObject> *hello2;\n" +
+            "       id<NSObject>/**/    hello2;\n",
+            target:
+            "       NSString          *wrong;  // *a;\n" +
+            "       NSString          *hello;  // 12310238193* sdfs = 34;\n" +
+            "       id<NSObject>      *hello2;\n" +
+            "       id<NSObject>/**/   hello2;\n",
+            specifier: Configuration.forms[2])
+    }
+    
     func testObjCTestAlignmentForVariablesWithInitializers() {
         testOriginal(
             "       NSString* wrong = [something there];\n" +
@@ -71,6 +85,20 @@ class TestAlign: XCTestCase {
             "       NSString          *hello  = adaa();\n" +
             "       id<NSObject>      *hello2 = 34 * lj;\n" +
             "       id<NSObject>/**/   hello2 = nil;\n",
+            specifier: Configuration.forms[2])
+    }
+
+    func testObjCTestAlignmentForVariablesWithInitializersAndComments() {
+        testOriginal(
+            "       NSString* wrong = [something there]; // a\n" +
+            "       NSString *hello =     adaa(); // * dsds\n" +
+            "       id<NSObject> *hello2 = 34 * lj;  // = 23\n" +
+            "       id<NSObject>/**/    hello2 = nil; // * sds = 34343\n",
+            target:
+            "       NSString          *wrong  = [something there]; // a\n" +
+            "       NSString          *hello  = adaa();            // * dsds\n" +
+            "       id<NSObject>      *hello2 = 34 * lj;           // = 23\n" +
+            "       id<NSObject>/**/   hello2 = nil;               // * sds = 34343\n",
             specifier: Configuration.forms[2])
     }
     
@@ -91,13 +119,28 @@ class TestAlign: XCTestCase {
                 "#if CHERRY && VINE\n" +
                 "#   elif CHERRY2 && VINE2\n" +
                 "# else BERRY\n" +
-            "#endif\n"
+                "#endif\n"
             ,
             target:
                 "#if         CHERRY && VINE\n" +
                 "#   elif    CHERRY2 && VINE2\n" +
                 "# else      BERRY\n" +
-            "#endif\n",
+                "#endif\n",
+            specifier: Configuration.forms[0])
+    }
+    
+    func testObjCAlignmentForDefinesWithComments() {
+        testOriginal(
+            "#if CHERRY && VINE // comment define 1\n" +
+                "#   elif CHERRY2 && VINE2 // # else\n" +
+                "# else BERRY // * this is a normal comment\n" +
+            "#endif // comment end\n"
+            ,
+            target:
+            "#if         CHERRY && VINE      // comment define 1\n" +
+            "#   elif    CHERRY2 && VINE2    // # else\n" +
+            "# else      BERRY               // * this is a normal comment\n" +
+            "#endif                          // comment end\n",
             specifier: Configuration.forms[0])
     }
     
@@ -115,6 +158,23 @@ class TestAlign: XCTestCase {
             "   @property (nonatomic, strong, readonly) NSNumber                          *variable;\n" +
             "   @property (nonatomic, weak, copy      ) Fan                                variable;\n" +
             "",
+            specifier: Configuration.forms[1])
+    }
+    
+    func testPropertiesWithComments() {
+        testOriginal(
+        "   @property (nonatomic, strong) NSMutableDictionary*stationSessions; // a *dasda;\n" +
+        "   @property (nonatomic, assign) id<WhatEver>/*some description*/ variable; // @property\n" +
+        "   @property (nonatomic, strong, readonly) NSNumber *variable; // normal comment\n" +
+        "   @property (nonatomic, weak, copy) Fan variable; // ^)(*__)(&%@%$@\n" +
+        ""
+            ,
+            target:
+        "   @property (nonatomic, strong          ) NSMutableDictionary               *stationSessions; // a *dasda;\n" +
+        "   @property (nonatomic, assign          ) id<WhatEver>/*some description*/   variable;        // @property\n" +
+        "   @property (nonatomic, strong, readonly) NSNumber                          *variable;        // normal comment\n" +
+        "   @property (nonatomic, weak, copy      ) Fan                                variable;        // ^)(*__)(&%@%$@\n" +
+        "",
             specifier: Configuration.forms[1])
     }
 }

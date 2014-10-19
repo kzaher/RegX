@@ -68,6 +68,21 @@ public class Regularizer  {
             }
         }
     }
+
+    private class func trimStartWhitespace(string: String) -> String {
+        var i = string.startIndex
+        for i = string.startIndex; i < string.endIndex && i < string.endIndex.predecessor(); i = i.successor() {
+            let nextIndex = i.successor()
+            let nextChar = string[nextIndex]
+            // other solutions is swift were too compicated
+            // this was good enough
+            if !(nextChar == " " || nextChar == "\n" || nextChar == "\t") {
+                break;
+            }
+        }
+        
+        return string.substringWithRange(Range<String.Index>(start: i, end: string.endIndex))
+    }
     
     private class func trimEndWhitespace(string: String) -> String {
         var i = string.endIndex
@@ -84,6 +99,13 @@ public class Regularizer  {
         return string.substringWithRange(Range<String.Index>(start: string.startIndex, end: i))
     }
     
+    private class func trim(string: String, start: Bool, end: Bool) -> String {
+        let str1 = start ? Regularizer.trimStartWhitespace(string) : string
+        let str2 = end ? Regularizer.trimEndWhitespace(str1) : str1
+        
+        return str2
+    }
+    
     private func finalColmnWidth(startWidth: Int) -> Int {
         let minimalTargetWidth = startWidth
         
@@ -94,7 +116,9 @@ public class Regularizer  {
                 : ((minimalTargetWidth / tabWidth) + 1) * tabWidth
     }
     
-    public func regularize(text: String, minSpaces: [Int], regularExpression: NSRegularExpression) -> String {
+    func regularize(     text: String,
+                            settings:[GroupSettings],
+                   regularExpression: NSRegularExpression) -> String {
         let lines = text.componentsSeparatedByString("\n")
         
         let parsedLines : [ParsedLineResult] = lines.map { line -> ParsedLineResult in
@@ -119,8 +143,18 @@ public class Regularizer  {
                     continue
                 }
                 let substring = (line as NSString).substringWithRange(range)
-                let rightPadding = "".stringByPaddingToLength(minSpaces[widthGroup], withString: " ", startingAtIndex: 0)
-                tokens.append(Regularizer.trimEndWhitespace(substring) + rightPadding)
+                
+                let settings = settings[i - 1]
+
+                let paddingBefore = settings.paddingBefore != nil ? settings.paddingBefore! : 0
+                let paddingBeforeString = "".stringByPaddingToLength(paddingBefore, withString: " ", startingAtIndex: 0)
+                
+                let paddingAfter = settings.paddingAfter != nil ? settings.paddingAfter! : 0
+                let paddingAfterString  = "".stringByPaddingToLength(paddingAfter, withString: " ", startingAtIndex: 0)
+                
+                let trimmedString = Regularizer.trim(substring, start: settings.paddingBefore != nil, end: settings.paddingAfter != nil)
+                
+                tokens.append(paddingBeforeString + trimmedString + paddingAfterString)
 
                 widthGroup++
             }

@@ -9,42 +9,92 @@
 struct Configuration {
    
     struct Patterns {
+        //
         // https://www.debuggex.com/ <- use it
-        static let nonterminatedVariable = "(\\s*(?# this is type declaration ->) (?:[^\\s](?:[^\\*=]|(?:(?:(?<=/)\\*|\\*(?=/))))*) )  (?# this is variable declaration ->)    (?:\\s*)((?:(?<!/)(?!/)\\**)\\s*)((?<!(?:\\w|\\d|_))(?:\\w|\\d|_|-)+\\s*(?:(?:;\\s*)|(?=\\s*\\=))\\s*)"
+        // Unit test will print concatenated pattern in console.
+        // The printed pattern has comments and '#' and that makes
+        // 
+        // 
+        
+        static func nonterminatedVariable(preserveStartSpace: Bool) -> String {
+            let preserveStartSpacePattern = preserveStartSpace ? "\\s*" : ""
+            return "" +
+            "   (?# type declaration GROUP)   " +
+            "       (" + preserveStartSpacePattern + "" +
+            "           (?:[^\\s]  " +
+            "               (?: [^\\*=/] | (?:(?<=/)\\*) | (?:\\*(?=/)) | (?:/(?!/)) )*" +
+            "           )" +
+            "       )" +
+            "   (?# space GROUP)   " +
+            "       (?:\\s*)" +
+            "   (?# pointer GROUP)   " +
+            "       ((?:(?<!/)(?!/)\\**)\\s*)" +
+            "   (?# identifier GROUP)   " +
+            "           ((?<!(?:\\w|\\d|_))(?:\\w|\\d|_|-)+" +
+            "       (?# space)   " +
+            "           \\s* " +
+            "       (?# it can be ; or next is initializer declaration = )   " +
+            "           (?:(?:;\\s*)|(?=\\s*\\=))" +
+            "       \\s*)"
+        }
         
          static let macroRegex = "^" +
             "(?: " +
-            "(?# this is define declaration ->)  " +
-            "(\\#\\s*define\\s) " +
-            "(?:\\s*) " +
-            "(?# macro name) " +
-            "(\\S+(?:\\s*\\([^\\)]*\\))?)\\s  " +
-            "(?# space)" +
-            "(?:\\s*) " +
-            "(?# macro value) (\\S.+) \\s*" +
+            "   (?# this is define declaration GROUP)  " +
+            "       (\\#\\s*define\\s) " +
+            "   (?# space)  " +
+            "       (?:\\s*) " +
+            "   (?# macro name GROUP) " +
+            "       (\\S+   (?:  \\s*   \\([^\\)]*\\))?    )\\s  " +
+            "   (?# space)" +
+            "       (?:\\s*) " +
+            "   (?# rest of line GROUP) " +
+            "       ( (?:[^/] | (?:/(?!/)) )* )? " +
+            "   (?# comments ) " +
+            "       (//.*)? " +
             ")" +
             "|" +
             "(?:" +
-            "(?# other declarations ->) " +
-            "(\\#\\s*\\S+\\s) (?:\\s*) (\\S*.*) " +
+            "   (?# definition name GROUP) " +
+            "       (\\#\\s*\\w+\\s) " +
+            "   (?# space) " +
+            "       (?:\\s*)" +
+            "   (?# rest of line GROUP) " +
+            "       ( (?:[^/] |  (?:/(?!/)) )* )? " +
+            "   (?# dummy empty GROUP to align with declaration comments) " +
+            "       ([^/])? " +
+            "   (?# comments ) " +
+            "       (//.*)? " +
             ")$" +
         "";
         
-        static let initializer = "(?# Initializer) (?: (\\s*) (\\=\\s*) ([^;]*;\\s*))?"
+        static let initializer =
+            "(?# Initializer) " +
+            "(?:" +
+            "   (?# = and space GROUP )" +
+            "       (\\=) \\s*" +
+            "   (?# = until ; GROUP )" +
+            "       ([^;]*;\\s*)" +
+            ")? " +
+            "(?# comments GROUP)" +
+            "(//.*)??"
         
-        static var variableRegex : String {
-            get {
-                return "^\(nonterminatedVariable)$"
-            }
-        }
         static var propertyRegex : String {
             get {
-                return "^(\\s*@property\\s*)(\\([^\\)]*)?(\\))?\\s*" + nonterminatedVariable + "$"
+                return "^" +
+                "(?# property GROUP)" +
+                "   (\\s*@property\\s*)" +
+                "   (?# + everything until last bracket)" +
+                "       (\\([^\\)]*)?" +
+                "(?# last bracket GROUP)" +
+                "   (\\))?" +
+                "(?# space after)" +
+                "\\s*\(nonterminatedVariable(false))(?:\\s*) \(initializer)$"
             }
         }
         static var variableWithInitializer : String {
             get {
-                return "^\(nonterminatedVariable)(?:\\s*) \(initializer)$"
+                return "^\(nonterminatedVariable(true))(?:\\s*) \(initializer)$"
             }
         }
     }
@@ -55,17 +105,47 @@ struct Configuration {
                      pattern: Patterns.macroRegex,
                     shortcut: String(UnicodeScalar(NSF1FunctionKey)),
                     modifier: NSEventModifierFlags.CommandKeyMask,
-                   minSpaces: [4, 4, 0]),
+                    settings: [
+                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 0),
+                        // identical because of two branches
+                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 0),
+                ]
+            ),
             RegularForm(name: "ObjC Property",
                      pattern: Patterns.propertyRegex,
                     shortcut: String(UnicodeScalar(NSF2FunctionKey)),
                     modifier: NSEventModifierFlags.CommandKeyMask,
-                   minSpaces: [1, 0, 1, 2, 0, 0, 1, 1, 0]),
+                    settings: [
+                        GroupSettings(nil, 1),
+                        GroupSettings(nil, 0),
+                        GroupSettings(nil, 1),
+                        GroupSettings(nil, 2),
+                        GroupSettings(nil, 0),
+                        GroupSettings(nil, 0),
+                        GroupSettings(1,   1),
+                        GroupSettings(nil, 0),
+                        GroupSettings(1,   0),
+                ]
+            ),
             RegularForm(name: "Variables",
                      pattern: Patterns.variableWithInitializer,
                     shortcut: String(UnicodeScalar(NSF3FunctionKey)),
                     modifier: NSEventModifierFlags.CommandKeyMask,
-                   minSpaces: [2, 0, 0, 1, 1, 0]),
+                    settings: [
+                        GroupSettings(nil, 2),
+                        GroupSettings(nil, 0),
+                        GroupSettings(nil, 0),
+                        GroupSettings(1,   1),
+                        GroupSettings(nil, 0),
+                        GroupSettings(1,   0),
+                ]
+            ),
                         ]
     }
 }
