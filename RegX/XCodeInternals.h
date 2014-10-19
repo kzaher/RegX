@@ -8,6 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class IDESourceCodeDocument;
+
+id                          RegX_performSelector(id object, NSString *selector);
+void                        RegX_replaceSelectedText(id document, NSRange range, NSString *text);
+NSRange                     RegX_fixRange(id document, NSRange range);
+long long                   RegX_tabWidth();
+
 @interface DVTTextDocumentLocation : NSObject
 @property (readonly) NSRange characterRange;
 @property (readonly) NSRange lineRange;
@@ -18,6 +25,7 @@
 @property BOOL trimWhitespaceOnlyLines;
 @property BOOL trimTrailingWhitespace;
 @property BOOL useSyntaxAwareIndenting;
+@property long long tabWidth;
 @end
 
 @interface DVTSourceTextStorage : NSTextStorage

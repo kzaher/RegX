@@ -9,8 +9,13 @@
 import Foundation
 
 public class Regularizer  {
-
-    public enum ParsedLineResult {
+    let tabWidth : Int
+    
+    init (tabWidth : Int) {
+        self.tabWidth = tabWidth
+    }
+    
+    private enum ParsedLineResult {
         case Raw(String)
         case Sections([String])
         
@@ -20,64 +25,84 @@ public class Regularizer  {
             case .Sections(let columns):return "|".join(columns)
             }
         }
-    }
-    
-    private class func forEachLineLongEnough(parsedLines : [ParsedLineResult], onIndex: Int, action:ParsedLineResult -> ParsedLineResult) -> [ParsedLineResult] {
-        return map(parsedLines) { (parsedResult) -> ParsedLineResult in
-            switch (parsedResult) {
-                case .Sections(let columns):
-                    if (onIndex < columns.count) {
-                        return action(parsedResult)
-                    }
-                default:break
+        
+        var numberOfColumns : Int {
+            switch (self) {
+            case .Raw(let line):
+                assert(false)
+                return 0
+            case .Sections(let columns):
+                return columns.count
             }
-            return parsedResult
         }
     }
     
-    private class func maxColumnWidth(parsedLines : [ParsedLineResult], onIndex: Int) -> Int {
-        var maxWidth = 0
-        forEachLineLongEnough(parsedLines, onIndex: onIndex) { parsedLine in
-            switch (parsedLine) {
+    private class func maxColumnWidth(parsedLines : [ParsedLineResult], index: Int) -> Int {
+        return reduce(parsedLines, 0, { max, line -> Int in
+            switch line {
+            case .Raw(_):
+                return max
             case .Sections(let columns):
-                let length = columns[onIndex].utf16Count
-                if length > maxWidth {
-                    maxWidth = length
+                if columns.count > index {
+                    let column = columns[index]
+                    let length = countElements(column)
+                    return length > max ? length : max
                 }
-            default:break
+                else {
+                    return max
+                }
             }
-            
-            return parsedLine
-        }
-        return maxWidth
+        })
     }
     
-    private class func paddColumnToLength(parsedLines : [ParsedLineResult], onIndex: Int, length: Int) -> [ParsedLineResult] {
-        return forEachLineLongEnough(parsedLines, onIndex: onIndex) { parsedLine in
-            switch (parsedLine) {
+    private class func paddColumnToWidths(parsedLines : [ParsedLineResult], widths: [Int]) -> [ParsedLineResult] {
+        return map(parsedLines) { line in
+            switch (line) {
             case .Sections(let columns):
-                var transformedColumns = columns
-             
-                let text = transformedColumns[onIndex]
-                let startIndex = 0//text.utf16Count
-                let transformedText = text.stringByPaddingToLength(length, withString: " ", startingAtIndex: startIndex)
-                transformedColumns[onIndex] = transformedText
-                return .Sections(transformedColumns)
-            default:break
+                let transformed = map(zip(columns, widths)) {
+                    $0.stringByPaddingToLength($1, withString: " ", startingAtIndex: 0)
+                }
+                return .Sections(transformed)
+            default:
+                return line
             }
-            return parsedLine
         }
     }
     
-    public class func regularize(text: String, regularExpression: NSRegularExpression) -> String {
+    private class func trimEndWhitespace(string: String) -> String {
+        var i = string.endIndex
+        for i = string.endIndex; i > string.startIndex; i = i.predecessor() {
+            let previousIndex = i.predecessor()
+            let previousCharacter = string[previousIndex]
+            // other solutions is swift were too compicated
+            // this was good enough
+            if !(previousCharacter == " " || previousCharacter == "\n" || previousCharacter == "\t") {
+                break;
+            }
+        }
+        
+        return string.substringWithRange(Range<String.Index>(start: string.startIndex, end: i))
+    }
+    
+    private func finalColmnWidth(startWidth: Int) -> Int {
+        let minimalTargetWidth = startWidth
+        
+        let tabWidth = self.tabWidth > 0 ? self.tabWidth: 4
+        
+        return minimalTargetWidth % tabWidth == 0
+                ? minimalTargetWidth
+                : ((minimalTargetWidth / tabWidth) + 1) * tabWidth
+    }
+    
+    public func regularize(text: String, minSpaces: [Int], regularExpression: NSRegularExpression) -> String {
         let lines = text.componentsSeparatedByString("\n")
         
         let parsedLines : [ParsedLineResult] = lines.map { line -> ParsedLineResult in
-            if (line.utf16Count == 0) {
+            if (countElements(line) == 0) {
                 return ParsedLineResult.Raw(line)
             }
             
-            let range = NSMakeRange(0, line.utf16Count)
+            let range = NSMakeRange(0, countElements(line))
             let matches = regularExpression.matchesInString(line, options:NSMatchingOptions.allZeros, range:range)
             
             if (matches.count == 0) {
@@ -87,28 +112,23 @@ public class Regularizer  {
             let match : NSTextCheckingResult = matches[0] as NSTextCheckingResult
             var tokens : [String] = []
             
-            //assert(match.numberOfRanges - 1 == settings.count)
-            
+            var widthGroup = 0
             for i in 1..<match.numberOfRanges {
                 let range : NSRange = match.rangeAtIndex(i)
                 if range.location == NSNotFound {
                     continue
                 }
                 let substring = (line as NSString).substringWithRange(range)
-                //let trimmedString = substring.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                let resultString = substring
-                //trimmedString.utf16Count > 0
-                  //  ? trimmedString
-                  //  : substring
-                tokens.append(resultString)
+                let rightPadding = "".stringByPaddingToLength(minSpaces[widthGroup], withString: " ", startingAtIndex: 0)
+                tokens.append(Regularizer.trimEndWhitespace(substring) + rightPadding)
+
+                widthGroup++
             }
 
-            println("split \(tokens)")
-            
             return ParsedLineResult.Sections(tokens)
         }
         
-        var maxLineLength = reduce(parsedLines, 0) {
+        var maxNumColumns = reduce(parsedLines, 0) {
             switch ($1) {
             case .Sections(let sections):
                 return $0 > sections.count ? $0 : sections.count
@@ -118,27 +138,16 @@ public class Regularizer  {
         }
         
         var resultColumns = parsedLines
-        for i in 0..<maxLineLength {
-            let maxWidth = maxColumnWidth(parsedLines, onIndex: i)
-            if (maxWidth == 0) {
-                continue
-            }
-
-            let minimalTargetWidth = maxWidth//+ (settings[i].needsSpaceAtThenEnd ? 1 : 0)// because of adding additional space
-            
-            // align to multiple of 4
-            let targetWidth = minimalTargetWidth % 4 == 0
-                    ? minimalTargetWidth
-                    : ((minimalTargetWidth / 4) + 1) * 4
-            
-            resultColumns = paddColumnToLength(resultColumns, onIndex: i, length: targetWidth)
-            println("columns \(map(resultColumns) { $0.description() })\n")
+        var widths = map(sequence(0..<maxNumColumns)) {
+            self.finalColmnWidth(Regularizer.maxColumnWidth(parsedLines, index: $0))
         }
-       
+        
+        resultColumns = Regularizer.paddColumnToWidths(resultColumns, widths: widths)
+        
         let linesWithJoinedLineContent = resultColumns.map { line -> String in
             switch (line) {
             case .Sections(let columns):
-                return "".join(columns)
+                return Regularizer.trimEndWhitespace("".join(columns))
             case .Raw(let content):
                 return content
             }

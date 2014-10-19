@@ -13,67 +13,25 @@ class XCodeService : NSObject {
     
     let notificationCenter : NSNotificationCenter
     let xcodeApp : NSApplication
-    let textPreferences : DVTTextPreferences
+    let tabWidth : () -> Int
     let errorPresenter : ErrorPresenter
     let forms : [RegularForm]
     
     init(xcodeApp: NSApplication,
-        textPreferences: DVTTextPreferences,
+        tabWidth: () -> Int,
         notificationCenter: NSNotificationCenter,
         errorPresenter: ErrorPresenter,
         forms: [RegularForm]) {
             
-        self.notificationCenter = notificationCenter
         self.xcodeApp = xcodeApp
-        self.textPreferences = textPreferences
+        self.tabWidth = tabWidth
+        self.notificationCenter = notificationCenter
         self.errorPresenter = errorPresenter
         self.forms = forms
             
         super.init()
             
         self.notificationCenter.addObserver(self, selector: "applicationDidFinishLaunching:", name: NSApplicationDidFinishLaunchingNotification, object: nil)
-    }
-    
-    var currentEditor : AnyObject! {
-        get {
-            let window : NSWindow? = NSApp.keyWindow?
-            let controller : AnyObject? = window?.windowController()
-            let currentWindowController = controller as? IDEWorkspaceWindowController
-    
-            if currentWindowController == nil {
-                return nil
-            }
-            
-            return currentWindowController?.editorArea()?.lastActiveEditorContext()?.editor()
-        }
-    }
-    
-    var currentTextView : NSTextView! {
-        get {
-            let currentEditor : AnyObject! = self.currentEditor
-            
-            let sourceCodeEditor = currentEditor as? IDESourceCodeEditor
-            
-            if sourceCodeEditor != nil {
-                return sourceCodeEditor?.textView
-            }
-            
-            return nil;
-        }
-    }
-    
-    var currentSourceCodeDocument : IDESourceCodeDocument! {
-        get {
-            let currentEditor : AnyObject! = self.currentEditor
-            
-            let sourceCodeEditor = currentEditor as? IDESourceCodeEditor
-            
-            if sourceCodeEditor != nil {
-                return sourceCodeEditor?.sourceCodeDocument()
-            }
-        
-            return nil
-        }
     }
     
     func showError(error: String) {
@@ -88,7 +46,11 @@ class XCodeService : NSObject {
             return;
         }
         
-        let regXMenuItem = NSMenuItem(title: "RegX", action:nil, keyEquivalent: "ALT+F")
+        let regXMenuItem = NSMenuItem(title: "RegX", action:nil, keyEquivalent: "R")
+        let mask
+            = NSEventModifierFlags.CommandKeyMask
+            | NSEventModifierFlags.AlternateKeyMask
+        regXMenuItem.keyEquivalentModifierMask = Int(mask.rawValue)
         
         let indexToInsert = refactorItem!.menu!.indexOfItem(refactorItem!) + 1
         
@@ -101,6 +63,8 @@ class XCodeService : NSObject {
             let formItem = NSMenuItem(title: form.name,
                                      action: "regularizeCommand:",
                               keyEquivalent: form.shortcut)
+            formItem.keyEquivalentModifierMask = Int(form.modifier.rawValue)
+                
             formItem.target = self
             formItem.representedObject = index
             regXMenu.addItem(formItem)
@@ -116,7 +80,7 @@ class XCodeService : NSObject {
         let form = forms[index]
         
         changeSelectedText { (selectedText) -> String in
-            return form.alignColumns(selectedText)
+            return form.alignColumns(selectedText, tabWidth:self.tabWidth())
         }
     }
     
@@ -132,34 +96,65 @@ class XCodeService : NSObject {
         return string.substringWithRange(Range(start:start, end:end))
     }
     
-    func changeSelectedText(changeAction: (selectedText : String) -> String) {
-        let currentTextView = self.currentTextView
-        let currentDocument = self.currentSourceCodeDocument
+    class func paragraphRange(string: NSString, range: NSRange) -> NSRange {
+        let emptyLineRegex = NSRegularExpression(pattern: "^\\s*$", options: NSRegularExpressionOptions.AnchorsMatchLines, error: nil)
         
-        if currentTextView == nil || currentDocument == nil {
-            errorPresenter.showError("Invalid context. Aligning only works in source code windows. \(self.currentEditor)")
+        let lineMatches = emptyLineRegex!.matchesInString(string, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, string.length))
+        
+        let lineStartIndexes : [Int] = map(lineMatches) {
+            let location = ($0 as NSTextCheckingResult).range.location
+            return location != NSNotFound ? location : 0
+        }
+        
+        let rangeEnd = range.location + range.length
+        
+        let paragraphSeparatorBeforeRange = lineStartIndexes.filter { $0 < range.location }.last
+        let paragraphSeparatorAfterRange = lineStartIndexes.filter { $0 > rangeEnd }.first
+
+        let startIndex = paragraphSeparatorBeforeRange != nil ? paragraphSeparatorBeforeRange! : 0
+        let endIndex = paragraphSeparatorAfterRange != nil ? paragraphSeparatorAfterRange! : string.length
+        
+        return NSMakeRange(startIndex, endIndex - startIndex)
+    }
+    
+    func changeSelectedText(changeAction: (selectedText : String) -> String) {
+        let controller = self.xcodeApp .. "keyWindow" .. "windowController"
+        let editor = controller .. "editorArea" .. "lastActiveEditorContext" .. "editor"
+        let currentDocumentOptional = editor .. ["sourceCodeDocument", "primaryDocument"]
+        let currentTextViewOptional : OptionalReflection = editor .. ["textView", "keyTextView"]
+
+        if !currentTextViewOptional.hasValue || !currentDocumentOptional.hasValue {
+            errorPresenter.showError("Invalid context. Aligning only works in source code windows. \(currentTextViewOptional.description)")
             return
         }
+        
+        let currentTextView = currentTextViewOptional.value as? NSTextView
        
-        let firstRange : NSValue! = currentTextView.selectedRanges.first as? NSValue!
+        let firstRange : NSValue! = currentTextView!.selectedRanges.first as? NSValue!
         
         if firstRange == nil {
             errorPresenter.showError("Please select range.")
             return
         }
         
-        let range = firstRange.rangeValue
-        
-        let code = currentTextView.textStorage?.string
+        let code = currentTextView!.textStorage?.string
         
         if code == nil {
             errorPresenter.showError("Can't fetch code.")
             return
         }
         
+        let firstRangeValue = firstRange.rangeValue
+        
+        let range = firstRangeValue.length == 0
+            ? XCodeService.paragraphRange(code!, range: firstRangeValue)
+            : RegX_fixRange(currentDocumentOptional.value, firstRangeValue)
+        
         let selectedCode = XCodeService.substring(code!, range:range)
         
-        changeAction(selectedText: selectedCode)
+        let resultSelectedCode = changeAction(selectedText: selectedCode)
+        
+        RegX_replaceSelectedText(currentDocumentOptional.value, range, resultSelectedCode)
     }
     
     deinit {

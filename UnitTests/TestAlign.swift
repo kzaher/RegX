@@ -12,7 +12,6 @@ import XCTest
 class TestAlign: XCTestCase {
     
     override func setUp() {
-        RegXPlugin.classCode()
         super.tearDown()
     }
     
@@ -23,6 +22,7 @@ class TestAlign: XCTestCase {
     private func compareResult(result: String, test: String) {
         var indexResult = result.startIndex
         var indexTest = test.startIndex
+        
         for i in 0..<min(result.utf16Count, test.utf16Count) {
             var firstChar = result[indexResult]
             var secondChar = test[indexTest]
@@ -37,31 +37,42 @@ class TestAlign: XCTestCase {
         XCTAssert(result == test)
     }
     
-    private func testOriginal(original: String, target: String, regex regexText: String) {
-        println("regex = \(regexText)")
-        
-        var error : NSError?
-        let regex = NSRegularExpression(pattern: regexText, options: NSRegularExpressionOptions.AllowCommentsAndWhitespace, error: &error)
-       
-        //let settings : [RegularExpressionGroupSettings] = RegularExpressionGroupSettings(needsSpaceAtTheEnd:false)
-        let result : String = Regularizer.regularize(original, regularExpression: regex!)
-        
-        println("result \n\(result)")
+    private func testOriginal(original: String, target: String, specifier: RegularForm) {
+        let result : String = specifier.alignColumns(original, tabWidth:1)
+        if result != target {
+            println("regex = \(specifier.pattern)")
+            println("result \n\(result)")
+        }
         compareResult(result, test:target)
     }
 
-    func objCTestAlignmentForVariables() {
+    func testObjCTestAlignmentForVariables() {
         testOriginal(
+            "       NSString* wrong;\n" +
             "       NSString *hello;\n" +
             "       id<NSObject> *hello2;\n" +
             "       id<NSObject>/**/    hello2;\n",
             target:
-            "        NSString            *hello; \n" +
-            "        id<NSObject>        *hello2;\n" +
-            "        id<NSObject>/**/    hello2; \n",
-            regex: RegXPlugin.Patterns.variableRegex)
+            "       NSString          *wrong;\n" +
+            "       NSString          *hello;\n" +
+            "       id<NSObject>      *hello2;\n" +
+            "       id<NSObject>/**/   hello2;\n",
+            specifier: Configuration.forms[2])
     }
     
+    func testObjCTestAlignmentForVariablesWithInitializers() {
+        testOriginal(
+            "       NSString* wrong = [something there];\n" +
+            "       NSString *hello =     adaa();\n" +
+            "       id<NSObject> *hello2 = 34 * lj;\n" +
+            "       id<NSObject>/**/    hello2 = nil;\n",
+            target:
+            "       NSString          *wrong  = [something there];\n" +
+            "       NSString          *hello  = adaa();\n" +
+            "       id<NSObject>      *hello2 = 34 * lj;\n" +
+            "       id<NSObject>/**/   hello2 = nil;\n",
+            specifier: Configuration.forms[2])
+    }
     
     func testObjCAlignmentForDefines1() {
         testOriginal(
@@ -69,10 +80,10 @@ class TestAlign: XCTestCase {
             "#define B()  4000\n" +
             "#define C (,,,er)  3000 + s\n",
             target:
-            "#define A           1000    \n" +
-            "#define B()         4000    \n" +
-            "#define C (,,,er)   3000 + s\n",
-            regex:RegXPlugin.Patterns.macroRegex)
+            "#define    A            1000\n" +
+            "#define    B()          4000\n" +
+            "#define    C (,,,er)    3000 + s\n",
+            specifier: Configuration.forms[0])
     }
     
     func testObjCAlignmentForDefines2() {
@@ -83,25 +94,27 @@ class TestAlign: XCTestCase {
             "#endif\n"
             ,
             target:
-                "#if         CHERRY && VINE  \n" +
+                "#if         CHERRY && VINE\n" +
                 "#   elif    CHERRY2 && VINE2\n" +
-                "# else      BERRY           \n" +
+                "# else      BERRY\n" +
             "#endif\n",
-            regex:RegXPlugin.Patterns.macroRegex)
+            specifier: Configuration.forms[0])
     }
     
     func testPropertyRegex() {
         testOriginal(
+            "   @property (nonatomic, strong) NSMutableDictionary*stationSessions;\n" +
             "   @property (nonatomic, assign) id<WhatEver>/*some description*/ variable;\n" +
             "   @property (nonatomic, strong, readonly) NSNumber *variable;\n" +
             "   @property (nonatomic, weak, copy) Fan variable;\n" +
             ""
             ,
             target:
-            "   @property    (nonatomic, assign          )   id<WhatEver>/*some description*/    variable;   \n" +
-            "   @property    (nonatomic, strong, readonly)   NSNumber                            *variable;  \n" +
-            "   @property    (nonatomic, weak, copy      )   Fan                                 variable;   \n" +
+            "   @property (nonatomic, strong          ) NSMutableDictionary               *stationSessions;\n" +
+            "   @property (nonatomic, assign          ) id<WhatEver>/*some description*/   variable;\n" +
+            "   @property (nonatomic, strong, readonly) NSNumber                          *variable;\n" +
+            "   @property (nonatomic, weak, copy      ) Fan                                variable;\n" +
             "",
-            regex:RegXPlugin.Patterns.propertyRegex)
+            specifier: Configuration.forms[1])
     }
 }

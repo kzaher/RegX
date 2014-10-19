@@ -7,19 +7,22 @@
 //
 
 import Foundation
+import AppKit
 
 struct RegularForm  {
     let name : String
     let pattern : String
     let shortcut : String
+    let modifier : NSEventModifierFlags
+    let minSpaces : [Int]
     
-    func alignColumns(text: String) -> String {
+    func alignColumns(text: String, tabWidth: Int) -> String {
         var error : NSError?
         let regularExpression =
         NSRegularExpression(pattern: pattern,
                             options: NSRegularExpressionOptions.AllowCommentsAndWhitespace,
                               error: &error)
         
-        return Regularizer.regularize(text, regularExpression: regularExpression!)
+        return Regularizer(tabWidth: tabWidth).regularize(text, minSpaces: minSpaces, regularExpression: regularExpression!)
     }
 }

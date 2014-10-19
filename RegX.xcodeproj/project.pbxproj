@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8130E3419F3F01600A13EFB /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8130E3319F3F01600A13EFB /* Functional.swift */; };
+		C8130E3519F3F91500A13EFB /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8130E3319F3F01600A13EFB /* Functional.swift */; };
 		C86692A319F1D2FC00582722 /* RegXPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692A219F1D2FC00582722 /* RegXPlugin.swift */; };
 		C86692B619F1D41300582722 /* TestAlign.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692B219F1D41300582722 /* TestAlign.swift */; };
 		C86692B919F1D44100582722 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C86692B819F1D44100582722 /* Info.plist */; };
@@ -16,20 +18,23 @@
 		C8D7D1B919F29E5C00483BFA /* Regularizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35C819EEECE800DFF3BB /* Regularizer.swift */; };
 		C8D7D1BA19F29E5C00483BFA /* RegularForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D7D1B419F2995700483BFA /* RegularForm.swift */; };
 		C8D7D1BB19F29E5C00483BFA /* RegularExpressionGroupSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */; };
-		C8D7D1BC19F29E5C00483BFA /* RegXPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692A219F1D2FC00582722 /* RegXPlugin.swift */; };
 		C8D7D1BD19F29E5C00483BFA /* RegXLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8D619F26A0500101518 /* RegXLogging.swift */; };
 		C8D7D1BE19F29E5C00483BFA /* XCodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8C419F25E7600101518 /* XCodeService.swift */; };
-		C8D7D1BF19F29E8800483BFA /* XCodeInternals.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8E219F276B100101518 /* XCodeInternals.m */; };
+		C8DCC42319F40E56005B4648 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DCC42219F40E56005B4648 /* Configuration.swift */; };
+		C8DCC42419F40F39005B4648 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DCC42219F40E56005B4648 /* Configuration.swift */; };
+		C8DCC42619F40FB2005B4648 /* XCodeInternals.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8E219F276B100101518 /* XCodeInternals.m */; };
 		C8E8F8C519F25E7600101518 /* XCodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8C419F25E7600101518 /* XCodeService.swift */; };
 		C8E8F8D719F26A0500101518 /* RegXLogging.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8D619F26A0500101518 /* RegXLogging.swift */; };
 		C8E8F8E319F276B100101518 /* XCodeInternals.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E8F8E219F276B100101518 /* XCodeInternals.m */; };
-		C8F0E1D119F2B1070037838E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E1CD19F2B1070037838E /* Cocoa.framework */; };
-		C8F0E1D319F2B13F0037838E /* DVTFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E1D219F2B13F0037838E /* DVTFoundation.framework */; };
-		C8F0E1D719F2B1630037838E /* IDEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E1D619F2B1630037838E /* IDEKit.framework */; };
-		C8F0E1D919F2B16C0037838E /* DVTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E1D819F2B16C0037838E /* DVTKit.framework */; };
+		C8F0E21119F2B72E0037838E /* DVTFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E20C19F2B72E0037838E /* DVTFoundation.framework */; };
+		C8F0E21219F2B72E0037838E /* IDEFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E20D19F2B72E0037838E /* IDEFoundation.framework */; };
+		C8F0E21319F2B72E0037838E /* IDEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E20E19F2B72E0037838E /* IDEKit.framework */; };
+		C8F0E21419F2B72E0037838E /* DVTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E20F19F2B72E0037838E /* DVTKit.framework */; };
+		C8F0E21519F2B72E0037838E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8F0E21019F2B72E0037838E /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C8130E3319F3F01600A13EFB /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
 		C84DFF0D19EE775100C64E17 /* RegX.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegX.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C84DFF1119EE775100C64E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C86692A219F1D2FC00582722 /* RegXPlugin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegXPlugin.swift; sourceTree = "<group>"; };
@@ -41,14 +46,16 @@
 		C8BC35C819EEECE800DFF3BB /* Regularizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regularizer.swift; sourceTree = "<group>"; };
 		C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularExpressionGroupSettings.swift; sourceTree = "<group>"; };
 		C8D7D1B419F2995700483BFA /* RegularForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularForm.swift; sourceTree = "<group>"; };
+		C8DCC42219F40E56005B4648 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		C8E8F8C419F25E7600101518 /* XCodeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCodeService.swift; sourceTree = "<group>"; };
 		C8E8F8D519F2639700101518 /* XCodeInternals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XCodeInternals.h; sourceTree = "<group>"; };
 		C8E8F8D619F26A0500101518 /* RegXLogging.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegXLogging.swift; sourceTree = "<group>"; };
 		C8E8F8E219F276B100101518 /* XCodeInternals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCodeInternals.m; sourceTree = "<group>"; };
-		C8F0E1CD19F2B1070037838E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		C8F0E1D219F2B13F0037838E /* DVTFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTFoundation.framework; path = /Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework; sourceTree = "<absolute>"; };
-		C8F0E1D619F2B1630037838E /* IDEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDEKit.framework; path = ../../../../Applications/Xcode.app/Contents/Frameworks/IDEKit.framework; sourceTree = "<group>"; };
-		C8F0E1D819F2B16C0037838E /* DVTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTKit.framework; path = ../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTKit.framework; sourceTree = "<group>"; };
+		C8F0E20C19F2B72E0037838E /* DVTFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTFoundation.framework; path = ../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework; sourceTree = "<group>"; };
+		C8F0E20D19F2B72E0037838E /* IDEFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDEFoundation.framework; path = ../../../../Applications/Xcode.app/Contents/Frameworks/IDEFoundation.framework; sourceTree = "<group>"; };
+		C8F0E20E19F2B72E0037838E /* IDEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IDEKit.framework; path = ../../../../Applications/Xcode.app/Contents/Frameworks/IDEKit.framework; sourceTree = "<group>"; };
+		C8F0E20F19F2B72E0037838E /* DVTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DVTKit.framework; path = ../../../../Applications/Xcode.app/Contents/SharedFrameworks/DVTKit.framework; sourceTree = "<group>"; };
+		C8F0E21019F2B72E0037838E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,10 +63,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8F0E1D319F2B13F0037838E /* DVTFoundation.framework in Frameworks */,
-				C8F0E1D719F2B1630037838E /* IDEKit.framework in Frameworks */,
-				C8F0E1D919F2B16C0037838E /* DVTKit.framework in Frameworks */,
-				C8F0E1D119F2B1070037838E /* Cocoa.framework in Frameworks */,
+				C8F0E21219F2B72E0037838E /* IDEFoundation.framework in Frameworks */,
+				C8F0E21519F2B72E0037838E /* Cocoa.framework in Frameworks */,
+				C8F0E21319F2B72E0037838E /* IDEKit.framework in Frameworks */,
+				C8F0E21419F2B72E0037838E /* DVTKit.framework in Frameworks */,
+				C8F0E21119F2B72E0037838E /* DVTFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,8 +104,10 @@
 			isa = PBXGroup;
 			children = (
 				C84DFF1019EE775100C64E17 /* Supporting Files */,
-				C8BC35C819EEECE800DFF3BB /* Regularizer.swift */,
+				C8DCC42219F40E56005B4648 /* Configuration.swift */,
+				C8130E3319F3F01600A13EFB /* Functional.swift */,
 				C8D7D1B419F2995700483BFA /* RegularForm.swift */,
+				C8BC35C819EEECE800DFF3BB /* Regularizer.swift */,
 				C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */,
 				C86692A219F1D2FC00582722 /* RegXPlugin.swift */,
 				C8E8F8D619F26A0500101518 /* RegXLogging.swift */,
@@ -138,10 +148,11 @@
 		C8E8F8C819F25FB100101518 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8F0E1D619F2B1630037838E /* IDEKit.framework */,
-				C8F0E1CD19F2B1070037838E /* Cocoa.framework */,
-				C8F0E1D219F2B13F0037838E /* DVTFoundation.framework */,
-				C8F0E1D819F2B16C0037838E /* DVTKit.framework */,
+				C8F0E20C19F2B72E0037838E /* DVTFoundation.framework */,
+				C8F0E20D19F2B72E0037838E /* IDEFoundation.framework */,
+				C8F0E20E19F2B72E0037838E /* IDEKit.framework */,
+				C8F0E20F19F2B72E0037838E /* DVTKit.framework */,
+				C8F0E21019F2B72E0037838E /* Cocoa.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -244,9 +255,11 @@
 				C8D7D1B519F2995700483BFA /* RegularForm.swift in Sources */,
 				C86692A319F1D2FC00582722 /* RegXPlugin.swift in Sources */,
 				C8E8F8D719F26A0500101518 /* RegXLogging.swift in Sources */,
+				C8DCC42319F40E56005B4648 /* Configuration.swift in Sources */,
 				C8E8F8E319F276B100101518 /* XCodeInternals.m in Sources */,
 				C8E8F8C519F25E7600101518 /* XCodeService.swift in Sources */,
 				C8BC35C919EEECE800DFF3BB /* Regularizer.swift in Sources */,
+				C8130E3419F3F01600A13EFB /* Functional.swift in Sources */,
 				C8BC35CC19EF243900DFF3BB /* RegularExpressionGroupSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,12 +270,13 @@
 			files = (
 				C8D7D1B919F29E5C00483BFA /* Regularizer.swift in Sources */,
 				C86692B619F1D41300582722 /* TestAlign.swift in Sources */,
-				C8D7D1BC19F29E5C00483BFA /* RegXPlugin.swift in Sources */,
 				C8D7D1BE19F29E5C00483BFA /* XCodeService.swift in Sources */,
 				C8D7D1BD19F29E5C00483BFA /* RegXLogging.swift in Sources */,
 				C8D7D1BA19F29E5C00483BFA /* RegularForm.swift in Sources */,
-				C8D7D1BF19F29E8800483BFA /* XCodeInternals.m in Sources */,
+				C8DCC42419F40F39005B4648 /* Configuration.swift in Sources */,
+				C8130E3519F3F91500A13EFB /* Functional.swift in Sources */,
 				C8D7D1BB19F29E5C00483BFA /* RegularExpressionGroupSettings.swift in Sources */,
+				C8DCC42619F40FB2005B4648 /* XCodeInternals.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,7 +375,6 @@
 				);
 				INFOPLIST_FILE = RegX/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
-				LD_RUNPATH_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RegX/RegX-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -384,7 +397,6 @@
 				);
 				INFOPLIST_FILE = RegX/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
-				LD_RUNPATH_SEARCH_PATHS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RegX/RegX-Bridging-Header.h";
 				WRAPPER_EXTENSION = xcplugin;
@@ -403,13 +415,14 @@
 					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/SharedFrameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+					LOGIC_TESTS,
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = UnitTests/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DLOGIC_TESTS $(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/UnitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -427,10 +440,15 @@
 					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Frameworks",
 					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/SharedFrameworks",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					LOGIC_TESTS,
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = UnitTests/Info.plist;
 				INSTALL_PATH = "/Library/Application Support/Developer/Shared/Xcode/Plug-ins";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DLOGIC_TESTS $(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/UnitTests-Bridging-Header.h";
 			};
