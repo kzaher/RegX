@@ -108,9 +108,9 @@ class TestAlign: XCTestCase {
             "#define B()  4000\n" +
             "#define C (,,,er)  3000 + s\n",
             target:
-            "#define    A            1000\n" +
-            "#define    B()          4000\n" +
-            "#define    C (,,,er)    3000 + s\n",
+            "#define A            1000\n" +
+            "#define B()          4000\n" +
+            "#define C (,,,er)    3000 + s\n",
             specifier: Configuration.forms[0])
     }
     
@@ -122,25 +122,41 @@ class TestAlign: XCTestCase {
                 "#endif\n"
             ,
             target:
-                "#if         CHERRY && VINE\n" +
-                "#   elif    CHERRY2 && VINE2\n" +
-                "# else      BERRY\n" +
+                "#if      CHERRY && VINE\n" +
+                "#   elif CHERRY2 && VINE2\n" +
+                "# else   BERRY\n" +
                 "#endif\n",
             specifier: Configuration.forms[0])
     }
     
+    
     func testObjCAlignmentForDefinesWithComments() {
         testOriginal(
-            "#if CHERRY && VINE // comment define 1\n" +
+            "#if CHERRY && VINE // () comment define 1\n" +
                 "#   elif CHERRY2 && VINE2 // # else\n" +
                 "# else BERRY // * this is a normal comment\n" +
             "#endif // comment end\n"
             ,
             target:
-            "#if         CHERRY && VINE      // comment define 1\n" +
-            "#   elif    CHERRY2 && VINE2    // # else\n" +
-            "# else      BERRY               // * this is a normal comment\n" +
-            "#endif                          // comment end\n",
+            "#if      CHERRY && VINE      // () comment define 1\n" +
+            "#   elif CHERRY2 && VINE2    // # else\n" +
+            "# else   BERRY               // * this is a normal comment\n" +
+            "#endif                       // comment end\n",
+            specifier: Configuration.forms[0])
+    }
+    
+    func testObjCAlignmentForDefinesWithComments2() {
+        testOriginal(
+            "#define TEXPECT(ocmock)                             (__typeof(ocmock))([(OCMockObject*)(ocmock) expect]) // first * ()\n" +
+            "#define STUB_IGNORING_NON_OBJECT_ARGS(ocmock)       [[(OCMockObject*)(ocmock) stub] // hi ()\n" +
+            "#define STUB_IGNORING_NON_OBJECT_ARGS(ocmock)       [[(OCMockObject*)(ocmock) stub]\n" +
+            ""
+            ,
+            target:
+            "#define TEXPECT(ocmock)                          (__typeof(ocmock))([(OCMockObject*)(ocmock) expect]) // first * ()\n" +
+            "#define STUB_IGNORING_NON_OBJECT_ARGS(ocmock)    [[(OCMockObject*)(ocmock) stub]                      // hi ()\n" +
+            "#define STUB_IGNORING_NON_OBJECT_ARGS(ocmock)    [[(OCMockObject*)(ocmock) stub]\n" +
+            "",
             specifier: Configuration.forms[0])
     }
     
@@ -176,5 +192,20 @@ class TestAlign: XCTestCase {
         "   @property (nonatomic, weak, copy      ) Fan                                variable;        // ^)(*__)(&%@%$@\n" +
         "",
             specifier: Configuration.forms[1])
+    }
+    
+    func testAssignments() {
+        testOriginal(
+        "   aas01312[23] = seven<sds> / 23 // comment;\n" +
+        "   *(aas01312[23] + 1) = [self sendMessage:@\"hello\"] + 23;\n" +
+        "   _variable = sum(square(34); // third comment = sum\n" +
+        ""
+            ,
+            target:
+        "   aas01312[23]        = seven<sds> / 23                   // comment;\n" +
+        "   *(aas01312[23] + 1) = [self sendMessage:@\"hello\"] + 23;\n" +
+        "   _variable           = sum(square(34);                   // third comment = sum\n" +
+        "",
+            specifier: Configuration.forms[3])
     }
 }

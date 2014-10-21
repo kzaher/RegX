@@ -45,7 +45,7 @@ struct Configuration {
             "   (?# space)  " +
             "       (?:\\s*) " +
             "   (?# macro name GROUP) " +
-            "       (\\S+   (?:  \\s*   \\([^\\)]*\\))?    )\\s  " +
+            "       ((?:[^\\s(])*   (?:  \\s*   \\( [^\\)]* \\) )?    )\\s  " +
             "   (?# space)" +
             "       (?:\\s*) " +
             "   (?# rest of line GROUP) " +
@@ -78,6 +78,18 @@ struct Configuration {
             ")? " +
             "(?# comments GROUP)" +
             "(//.*)??"
+
+        static let assignments = "^" +
+        "   (?# lvalue GROUP)" +
+        "       ([^=]*)" +
+        "   (?# = GROUP)" +
+        "       (\\=) " +
+        "   (?# expression GROUP)" +
+        "       ((?:[^/] | (?:/(?!/)) )*)" +
+        "   (?# comments GROUP)" +
+        "       (//.*)?" +
+        "$"
+        
         
         static var propertyRegex : String {
             get {
@@ -106,14 +118,14 @@ struct Configuration {
                     shortcut: String(UnicodeScalar(NSF1FunctionKey)),
                     modifier: NSEventModifierFlags.CommandKeyMask,
                     settings: [
+                        GroupSettings(nil, 1),
                         GroupSettings(nil, 4),
-                        GroupSettings(nil, 4),
-                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 1),
                         GroupSettings(nil, 0),
                         // identical because of two branches
+                        GroupSettings(nil, 1),
                         GroupSettings(nil, 4),
-                        GroupSettings(nil, 4),
-                        GroupSettings(nil, 4),
+                        GroupSettings(nil, 1),
                         GroupSettings(nil, 0),
                 ]
             ),
@@ -146,6 +158,17 @@ struct Configuration {
                         GroupSettings(1,   0),
                 ]
             ),
-                        ]
+            RegularForm(name: "Assignments",
+                pattern: Patterns.assignments,
+                shortcut: String(UnicodeScalar(NSF4FunctionKey)),
+                modifier: NSEventModifierFlags.CommandKeyMask,
+                settings: [
+                    GroupSettings(nil, 0),
+                    GroupSettings(1,   1),
+                    GroupSettings(0,   0),
+                    GroupSettings(1,   0),
+                ]
+            ),
+        ]
     }
 }

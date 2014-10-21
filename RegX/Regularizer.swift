@@ -69,14 +69,17 @@ public class Regularizer  {
         }
     }
 
+    private class func isWhitespace(char: Character) -> Bool {
+        // other solutions is swift were too compicated
+        // this was good enough
+        return char == " " || char == "\n" || char == "\t"
+    }
+    
     private class func trimStartWhitespace(string: String) -> String {
         var i = string.startIndex
         for i = string.startIndex; i < string.endIndex && i < string.endIndex.predecessor(); i = i.successor() {
-            let nextIndex = i.successor()
-            let nextChar = string[nextIndex]
-            // other solutions is swift were too compicated
-            // this was good enough
-            if !(nextChar == " " || nextChar == "\n" || nextChar == "\t") {
+            let char = string[i]
+            if !Regularizer.isWhitespace(char) {
                 break;
             }
         }
@@ -89,9 +92,7 @@ public class Regularizer  {
         for i = string.endIndex; i > string.startIndex; i = i.predecessor() {
             let previousIndex = i.predecessor()
             let previousCharacter = string[previousIndex]
-            // other solutions is swift were too compicated
-            // this was good enough
-            if !(previousCharacter == " " || previousCharacter == "\n" || previousCharacter == "\t") {
+            if !Regularizer.isWhitespace(previousCharacter) {
                 break;
             }
         }

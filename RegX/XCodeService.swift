@@ -23,11 +23,11 @@ class XCodeService : NSObject {
         errorPresenter: ErrorPresenter,
         forms: [RegularForm]) {
             
-        self.xcodeApp = xcodeApp
-        self.tabWidth = tabWidth
+        self.xcodeApp           = xcodeApp
+        self.tabWidth           = tabWidth
         self.notificationCenter = notificationCenter
-        self.errorPresenter = errorPresenter
-        self.forms = forms
+        self.errorPresenter     = errorPresenter
+        self.forms              = forms
             
         super.init()
             
@@ -109,19 +109,19 @@ class XCodeService : NSObject {
         let rangeEnd = range.location + range.length
         
         let paragraphSeparatorBeforeRange = lineStartIndexes.filter { $0 < range.location }.last
-        let paragraphSeparatorAfterRange = lineStartIndexes.filter { $0 > rangeEnd }.first
+        let paragraphSeparatorAfterRange  = lineStartIndexes.filter { $0 > rangeEnd }.first
 
         let startIndex = paragraphSeparatorBeforeRange != nil ? paragraphSeparatorBeforeRange! : 0
-        let endIndex = paragraphSeparatorAfterRange != nil ? paragraphSeparatorAfterRange! : string.length
+        let endIndex   = paragraphSeparatorAfterRange != nil ? paragraphSeparatorAfterRange! : string.length
         
         return NSMakeRange(startIndex, endIndex - startIndex)
     }
     
     func changeSelectedText(changeAction: (selectedText : String) -> String) {
-        let controller = self.xcodeApp .. "keyWindow" .. "windowController"
-        let editor = controller .. "editorArea" .. "lastActiveEditorContext" .. "editor"
+        let controller              = self.xcodeApp .. "keyWindow" .. "windowController"
+        let editor                  = controller .. "editorArea" .. "lastActiveEditorContext" .. "editor"
         let currentDocumentOptional = editor .. ["sourceCodeDocument", "primaryDocument"]
-        let currentTextViewOptional : OptionalReflection = editor .. ["textView", "keyTextView"]
+        let currentTextViewOptional = editor .. ["textView", "keyTextView"]
 
         if !currentTextViewOptional.hasValue || !currentDocumentOptional.hasValue {
             errorPresenter.showError("Invalid context. Aligning only works in source code windows. \(currentTextViewOptional.description)")
