@@ -36,12 +36,30 @@ class TestAlign: XCTestCase {
         }
         XCTAssert(result == test)
     }
+
+    // https://www.debuggex.com has problems with comments and '#'
+    // This function removes (?# .... ) constructs and '#' from pattern
+    private func escapeForVisualization(pattern: String) -> String {
+        let stripCommentsRegex = NSRegularExpression(pattern:"\\(\\?#[^\\)]*\\)", options: NSRegularExpressionOptions.allZeros, error:nil)
+        
+        let range = NSMakeRange(0, countElements(pattern))
+        
+        let nsPattern : NSString = pattern
+        let mutableNsPattern : NSMutableString = nsPattern.mutableCopy() as NSMutableString
+        
+        stripCommentsRegex?.replaceMatchesInString(mutableNsPattern, options: NSMatchingOptions.allZeros, range:range, withTemplate: "")
+        
+        let hashless = mutableNsPattern.stringByReplacingOccurrencesOfString("#", withString: "<hash>")
+        
+        return hashless
+    }
     
     private func testOriginal(original: String, target: String, specifier: RegularForm) {
         let result : String = specifier.alignColumns(original, tabWidth:1)
         if result != target {
-            println("regex = \(specifier.pattern)")
-            println("result \n\(result)")
+            println("RegEx pattern: \n\(specifier.pattern)")
+            println("RegEx to debug on https://www.debuggex.com/ (choose PCRE and ignore spaces option):\n\(escapeForVisualization(specifier.pattern))")
+            println("result: \n\(result)")
         }
         compareResult(result, test:target)
     }

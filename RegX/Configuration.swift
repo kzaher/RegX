@@ -12,9 +12,9 @@ struct Configuration {
         //
         // https://www.debuggex.com/ <- use it
         // Unit test will print concatenated pattern in console.
-        // The printed pattern has comments and '#' and that makes
-        // 
-        // 
+        // The printed pattern has comments and '#' and that breaks the tool,
+        // so unit tests print expression that has no comments and '#' so it's
+        // suitable for pasting into the browser.
         
         static func nonterminatedVariable(preserveStartSpace: Bool) -> String {
             let preserveStartSpacePattern = preserveStartSpace ? "\\s*" : ""
