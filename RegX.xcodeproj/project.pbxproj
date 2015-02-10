@@ -156,6 +156,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C84DFF1419EE775100C64E17 /* Build configuration list for PBXNativeTarget "RegX" */;
 			buildPhases = (
+				C83AA01C1A8A386800E0605C /* ShellScript */,
 				C84DFF0919EE775100C64E17 /* Sources */,
 				C84DFF0A19EE775100C64E17 /* Frameworks */,
 				C84DFF0B19EE775100C64E17 /* Resources */,
@@ -237,6 +238,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C83AA01C1A8A386800E0605C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\nXcodeInfoPlistPath=\"${SYSTEM_DEVELOPER_TOOLS}/../../Info.plist\"\n\nif [ ! -f \"${XcodeInfoPlistPath}\" ]\nthen\n    echo \"Xcode plist file ${XcodeInfoPlistPath} doesn't exist\"\n    exit -1\nfi\n\necho \"Xcode plist file ${XcodeInfoPlistPath}\"\nUDID=`defaults read $XcodeInfoPlistPath DVTPlugInCompatibilityUUID`\necho \"Found Xcode UDID:${UDID}\"\nN=`defaults read $PRODUCT_SETTINGS_PATH DVTPlugInCompatibilityUUIDs | grep $UDID | wc -l`\nif [ $N -eq 0 ]\nthen\n    defaults write $PRODUCT_SETTINGS_PATH DVTPlugInCompatibilityUUIDs -array-add $UDID\n    echo \"Added ${UDID} to list\"\nelse\n    echo \"${UDID} already added\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C84DFF0919EE775100C64E17 /* Sources */ = {
