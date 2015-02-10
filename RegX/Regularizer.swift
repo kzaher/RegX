@@ -45,7 +45,7 @@ public class Regularizer  {
             case .Sections(let columns):
                 if columns.count > index {
                     let column = columns[index]
-                    let length = countElements(column)
+                    let length = count(column)
                     return length > max ? length : max
                 }
                 else {
@@ -123,18 +123,18 @@ public class Regularizer  {
         let lines = text.componentsSeparatedByString("\n")
         
         let parsedLines : [ParsedLineResult] = lines.map { line -> ParsedLineResult in
-            if (countElements(line) == 0) {
+            if (count(line) == 0) {
                 return ParsedLineResult.Raw(line)
             }
             
-            let range = NSMakeRange(0, countElements(line))
+            let range = NSMakeRange(0, count(line))
             let matches = regularExpression.matchesInString(line, options:NSMatchingOptions.allZeros, range:range)
             
             if (matches.count == 0) {
                 return ParsedLineResult.Raw(line)
             }
             
-            let match : NSTextCheckingResult = matches[0] as NSTextCheckingResult
+            let match : NSTextCheckingResult = matches[0] as! NSTextCheckingResult
             var tokens : [String] = []
             
             var widthGroup = 0

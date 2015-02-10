@@ -12,7 +12,6 @@
 		C85B2D5719F5AC8000EB8482 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C85B2D5619F5AC8000EB8482 /* README.md */; };
 		C86692A319F1D2FC00582722 /* RegXPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692A219F1D2FC00582722 /* RegXPlugin.swift */; };
 		C86692B619F1D41300582722 /* TestAlign.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692B219F1D41300582722 /* TestAlign.swift */; };
-		C86692B919F1D44100582722 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C86692B819F1D44100582722 /* Info.plist */; };
 		C8BC35C919EEECE800DFF3BB /* Regularizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35C819EEECE800DFF3BB /* Regularizer.swift */; };
 		C8BC35CC19EF243900DFF3BB /* RegularExpressionGroupSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */; };
 		C8D7D1B519F2995700483BFA /* RegularForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D7D1B419F2995700483BFA /* RegularForm.swift */; };
@@ -43,7 +42,6 @@
 		C86692A819F1D3EA00582722 /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C86692B219F1D41300582722 /* TestAlign.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAlign.swift; sourceTree = "<group>"; };
 		C86692B319F1D41300582722 /* UnitTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		C86692B819F1D44100582722 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8BC35C719EEECE800DFF3BB /* RegX-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RegX-Bridging-Header.h"; sourceTree = "<group>"; };
 		C8BC35C819EEECE800DFF3BB /* Regularizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regularizer.swift; sourceTree = "<group>"; };
 		C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegularExpressionGroupSettings.swift; sourceTree = "<group>"; };
@@ -135,17 +133,8 @@
 			children = (
 				C86692B219F1D41300582722 /* TestAlign.swift */,
 				C86692B319F1D41300582722 /* UnitTests-Bridging-Header.h */,
-				C86692AA19F1D3EA00582722 /* Supporting Files */,
 			);
 			path = UnitTests;
-			sourceTree = "<group>";
-		};
-		C86692AA19F1D3EA00582722 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C86692B819F1D44100582722 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		C8E8F8C819F25FB100101518 /* Frameworks */ = {
@@ -244,7 +233,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C86692B919F1D44100582722 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
