@@ -76,7 +76,7 @@ class XCodeService : NSObject {
     }
     
     func regularizeCommand(item: NSMenuItem) {
-        let index : Int = item.representedObject as Int
+        let index : Int = item.representedObject as! Int
         let form = forms[index]
         
         changeSelectedText { (selectedText) -> String in
@@ -99,10 +99,10 @@ class XCodeService : NSObject {
     class func paragraphRange(string: NSString, range: NSRange) -> NSRange {
         let emptyLineRegex = NSRegularExpression(pattern: "^\\s*$", options: NSRegularExpressionOptions.AnchorsMatchLines, error: nil)
         
-        let lineMatches = emptyLineRegex!.matchesInString(string, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, string.length))
+        let lineMatches = emptyLineRegex!.matchesInString(string as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, string.length))
         
         let lineStartIndexes : [Int] = map(lineMatches) {
-            let location = ($0 as NSTextCheckingResult).range.location
+            let location = ($0 as! NSTextCheckingResult).range.location
             return location != NSNotFound ? location : 0
         }
         

@@ -23,7 +23,8 @@ class TestAlign: XCTestCase {
         var indexResult = result.startIndex
         var indexTest = test.startIndex
         
-        for i in 0..<min(result.utf16Count, test.utf16Count) {
+        let minCount = min(count(result.utf16), count(test.utf16))
+        for i in 0 ..<  minCount {
             var firstChar = result[indexResult]
             var secondChar = test[indexTest]
             if firstChar != secondChar {
@@ -42,10 +43,10 @@ class TestAlign: XCTestCase {
     private func escapeForVisualization(pattern: String) -> String {
         let stripCommentsRegex = NSRegularExpression(pattern:"\\(\\?#[^\\)]*\\)", options: NSRegularExpressionOptions.allZeros, error:nil)
         
-        let range = NSMakeRange(0, countElements(pattern))
+        let range = NSMakeRange(0, count(pattern))
         
         let nsPattern : NSString = pattern
-        let mutableNsPattern : NSMutableString = nsPattern.mutableCopy() as NSMutableString
+        let mutableNsPattern : NSMutableString = nsPattern.mutableCopy() as! NSMutableString
         
         stripCommentsRegex?.replaceMatchesInString(mutableNsPattern, options: NSMatchingOptions.allZeros, range:range, withTemplate: "")
         
