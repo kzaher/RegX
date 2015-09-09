@@ -22,13 +22,13 @@ public class Regularizer  {
         func description() -> String {
             switch (self) {
             case .Raw(let line):return line
-            case .Sections(let columns):return "|".join(columns)
+            case .Sections(let columns):return columns.joinWithSeparator("|")
             }
         }
         
         var numberOfColumns : Int {
             switch (self) {
-            case .Raw(let line):
+            case .Raw:
                 assert(false)
                 return 0
             case .Sections(let columns):
@@ -38,28 +38,28 @@ public class Regularizer  {
     }
     
     private class func maxColumnWidth(parsedLines : [ParsedLineResult], index: Int) -> Int {
-        return reduce(parsedLines, 0, { max, line -> Int in
+        return parsedLines.reduce(0) { max, line -> Int in
             switch line {
             case .Raw(_):
                 return max
             case .Sections(let columns):
                 if columns.count > index {
                     let column = columns[index]
-                    let length = count(column)
+                    let length = column.count()
                     return length > max ? length : max
                 }
                 else {
                     return max
                 }
             }
-        })
+        }
     }
     
     private class func paddColumnToWidths(parsedLines : [ParsedLineResult], widths: [Int]) -> [ParsedLineResult] {
-        return map(parsedLines) { line in
+        return parsedLines.map { line in
             switch (line) {
             case .Sections(let columns):
-                let transformed = map(zip(columns, widths)) {
+                let transformed = zip(columns, widths).map {
                     $0.stringByPaddingToLength($1, withString: " ", startingAtIndex: 0)
                 }
                 return .Sections(transformed)
@@ -123,18 +123,18 @@ public class Regularizer  {
         let lines = text.componentsSeparatedByString("\n")
         
         let parsedLines : [ParsedLineResult] = lines.map { line -> ParsedLineResult in
-            if (count(line) == 0) {
+            if (line.count() == 0) {
                 return ParsedLineResult.Raw(line)
             }
             
-            let range = NSMakeRange(0, count(line))
-            let matches = regularExpression.matchesInString(line, options:NSMatchingOptions.allZeros, range:range)
+            let range = NSMakeRange(0, line.count())
+            let matches = regularExpression.matchesInString(line, options:NSMatchingOptions(), range:range)
             
             if (matches.count == 0) {
                 return ParsedLineResult.Raw(line)
             }
             
-            let match : NSTextCheckingResult = matches[0] as! NSTextCheckingResult
+            let match : NSTextCheckingResult = matches[0]
             var tokens : [String] = []
             
             var widthGroup = 0
@@ -163,7 +163,7 @@ public class Regularizer  {
             return ParsedLineResult.Sections(tokens)
         }
         
-        var maxNumColumns = reduce(parsedLines, 0) {
+        let maxNumColumns = parsedLines.reduce(0) {
             switch ($1) {
             case .Sections(let sections):
                 return $0 > sections.count ? $0 : sections.count
@@ -173,7 +173,7 @@ public class Regularizer  {
         }
         
         var resultColumns = parsedLines
-        var widths = map(sequence(0..<maxNumColumns)) {
+        let widths = sequence(0..<maxNumColumns).map {
             self.finalColmnWidth(Regularizer.maxColumnWidth(parsedLines, index: $0))
         }
         
@@ -182,12 +182,12 @@ public class Regularizer  {
         let linesWithJoinedLineContent = resultColumns.map { line -> String in
             switch (line) {
             case .Sections(let columns):
-                return Regularizer.trimEndWhitespace("".join(columns))
+                return Regularizer.trimEndWhitespace(columns.joinWithSeparator(""))
             case .Raw(let content):
                 return content
             }
         }
       
-        return "\n".join(linesWithJoinedLineContent)
+        return linesWithJoinedLineContent.joinWithSeparator("\n")
     }
 }

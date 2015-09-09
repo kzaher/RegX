@@ -49,7 +49,7 @@ class XCodeService : NSObject {
         let regXMenuItem = NSMenuItem(title: "RegX", action:nil, keyEquivalent: "R")
         let mask
             = NSEventModifierFlags.CommandKeyMask
-            | NSEventModifierFlags.AlternateKeyMask
+            .union(NSEventModifierFlags.AlternateKeyMask)
         regXMenuItem.keyEquivalentModifierMask = Int(mask.rawValue)
         
         let indexToInsert = refactorItem!.menu!.indexOfItem(refactorItem!) + 1
@@ -90,19 +90,19 @@ class XCodeService : NSObject {
     }
     
     class func substring(string: String, range:NSRange) -> String {
-        let start = advance(string.startIndex, range.location)
-        let end = advance(start, range.length)
+        let start = string.startIndex.advancedBy(range.location)
+        let end = start.advancedBy(range.length)
         
         return string.substringWithRange(Range(start:start, end:end))
     }
     
     class func paragraphRange(string: NSString, range: NSRange) -> NSRange {
-        let emptyLineRegex = NSRegularExpression(pattern: "^\\s*$", options: NSRegularExpressionOptions.AnchorsMatchLines, error: nil)
+        let emptyLineRegex = try! NSRegularExpression(pattern: "^\\s*$", options: NSRegularExpressionOptions.AnchorsMatchLines)
         
-        let lineMatches = emptyLineRegex!.matchesInString(string as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, string.length))
+        let lineMatches = emptyLineRegex.matchesInString(string as String, options: NSMatchingOptions(rawValue: 0), range: NSMakeRange(0, string.length))
         
-        let lineStartIndexes : [Int] = map(lineMatches) {
-            let location = ($0 as! NSTextCheckingResult).range.location
+        let lineStartIndexes : [Int] = lineMatches.map {
+            let location = $0.range.location
             return location != NSNotFound ? location : 0
         }
         
@@ -130,7 +130,7 @@ class XCodeService : NSObject {
         
         let currentTextView = currentTextViewOptional.value as? NSTextView
        
-        let firstRange : NSValue! = currentTextView!.selectedRanges.first as? NSValue!
+        let firstRange = currentTextView!.selectedRanges.first
         
         if firstRange == nil {
             errorPresenter.showError("Please select range.")
@@ -144,7 +144,7 @@ class XCodeService : NSObject {
             return
         }
         
-        let firstRangeValue = firstRange.rangeValue
+        let firstRangeValue = firstRange!.rangeValue
         
         let range = firstRangeValue.length == 0
             ? XCodeService.paragraphRange(code!, range: firstRangeValue)

@@ -73,7 +73,7 @@ func .. (object: OptionalReflection, selectors: [String]) -> OptionalReflection 
     }
     
     for selector in selectors {
-        var result = object .. selector
+        let result = object .. selector
         
         switch result {
         case .Success(_):return result
@@ -102,7 +102,8 @@ func zip<T1, T2>(list1: [T1], list2: [T2]) -> [(T1, T2)] {
     for var it1 = list1.startIndex, it2 = list2.startIndex;
         it1 < list1.endIndex && it2 < list2.endIndex;
         it1 = it1.successor(), it2 = it2.successor() {
-            result.append(list1[it1], list2[it2])
+            let e = (list1[it1], list2[it2])
+            result.append(e)
     }
     
     return result

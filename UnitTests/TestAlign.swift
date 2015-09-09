@@ -23,12 +23,12 @@ class TestAlign: XCTestCase {
         var indexResult = result.startIndex
         var indexTest = test.startIndex
         
-        let minCount = min(count(result.utf16), count(test.utf16))
+        let minCount = min(result.count(), test.count())
         for i in 0 ..<  minCount {
-            var firstChar = result[indexResult]
-            var secondChar = test[indexTest]
+            let firstChar = result[indexResult]
+            let secondChar = test[indexTest]
             if firstChar != secondChar {
-                println("First difference at \(i):\n\(result.substringFromIndex(indexResult))\n\nwhat should be there:\n\(test.substringFromIndex(indexTest))")
+                print("First difference at \(i):\n\(result.substringFromIndex(indexResult))\n\nwhat should be there:\n\(test.substringFromIndex(indexTest))")
                 break
             }
             
@@ -41,14 +41,14 @@ class TestAlign: XCTestCase {
     // https://www.debuggex.com has problems with comments and '#'
     // This function removes (?# .... ) constructs and '#' from pattern
     private func escapeForVisualization(pattern: String) -> String {
-        let stripCommentsRegex = NSRegularExpression(pattern:"\\(\\?#[^\\)]*\\)", options: NSRegularExpressionOptions.allZeros, error:nil)
+        let stripCommentsRegex = try! NSRegularExpression(pattern:"\\(\\?#[^\\)]*\\)", options: NSRegularExpressionOptions())
         
-        let range = NSMakeRange(0, count(pattern))
+        let range = NSMakeRange(0, pattern.count())
         
         let nsPattern : NSString = pattern
         let mutableNsPattern : NSMutableString = nsPattern.mutableCopy() as! NSMutableString
         
-        stripCommentsRegex?.replaceMatchesInString(mutableNsPattern, options: NSMatchingOptions.allZeros, range:range, withTemplate: "")
+        stripCommentsRegex.replaceMatchesInString(mutableNsPattern, options: NSMatchingOptions(), range:range, withTemplate: "")
         
         let hashless = mutableNsPattern.stringByReplacingOccurrencesOfString("#", withString: "<hash>")
         
@@ -58,9 +58,9 @@ class TestAlign: XCTestCase {
     private func testOriginal(original: String, target: String, specifier: RegularForm) {
         let result : String = specifier.alignColumns(original, tabWidth:1)
         if result != target {
-            println("RegEx pattern: \n\(specifier.pattern)")
-            println("RegEx to debug on https://www.debuggex.com/ (choose PCRE and ignore spaces option):\n\(escapeForVisualization(specifier.pattern))")
-            println("result: \n\(result)")
+            print("RegEx pattern: \n\(specifier.pattern)")
+            print("RegEx to debug on https://www.debuggex.com/ (choose PCRE and ignore spaces option):\n\(escapeForVisualization(specifier.pattern))")
+            print("result: \n\(result)")
         }
         compareResult(result, test:target)
     }

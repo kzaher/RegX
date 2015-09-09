@@ -27,14 +27,12 @@ struct RegularForm  {
     let settings : [GroupSettings]
     
     func alignColumns(text: String, tabWidth: Int) -> String {
-        var error : NSError?
-        let regularExpression =
+        let regularExpression = try!
         NSRegularExpression(pattern: pattern,
-                            options: NSRegularExpressionOptions.AllowCommentsAndWhitespace,
-                              error: &error)
+                            options: NSRegularExpressionOptions.AllowCommentsAndWhitespace)
         
         return Regularizer(tabWidth: tabWidth).regularize(text,
                            settings: settings,
-                  regularExpression: regularExpression!)
+                  regularExpression: regularExpression)
     }
 }
