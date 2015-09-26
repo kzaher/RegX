@@ -24,7 +24,7 @@ enum OptionalReflection {
         get {
             switch (self) {
             case .Success(let result) : return result
-            default: assert(false)
+            default: fatalError("Doesn't have value")
             }
         }
     }
