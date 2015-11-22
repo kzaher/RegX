@@ -104,6 +104,16 @@ struct Configuration {
                 "\\s*\(nonterminatedVariable(false))(?:\\s*) \(initializer)$"
             }
         }
+
+        static var bigMacro: String {
+            get {
+                return "^" +
+                    "([^\\\\]*)" +
+                    "(\\\\)" +
+                "$"
+            }
+        }
+
         static var variableWithInitializer : String {
             get {
                 return "^\(nonterminatedVariable(true))(?:\\s*) \(initializer)$"
@@ -167,6 +177,15 @@ struct Configuration {
                     GroupSettings(1,   1),
                     GroupSettings(0,   0),
                     GroupSettings(1,   0),
+                ]
+            ),
+            RegularForm(name: "Big ObjC macro",
+                pattern: Patterns.bigMacro,
+                shortcut: String(UnicodeScalar(NSF5FunctionKey)),
+                modifier: NSEventModifierFlags.CommandKeyMask,
+                settings: [
+                    GroupSettings(nil, 0),
+                    GroupSettings(1,   0)
                 ]
             ),
         ]

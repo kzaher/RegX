@@ -227,4 +227,18 @@ class TestAlign: XCTestCase {
         "",
             specifier: Configuration.forms[3])
     }
+
+    func testBigMacro() {
+        testOriginal(
+            "  something1 \\\n" +
+            "  something1 adsakjda \\\n" +
+            "  something1 \\\n" +
+            "",
+            target:
+            "  something1          \\\n" +
+            "  something1 adsakjda \\\n" +
+            "  something1          \\\n" +
+            "",
+            specifier: Configuration.forms[4])
+    }
 }
