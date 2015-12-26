@@ -107,7 +107,7 @@ public class Regularizer  {
         return str2
     }
     
-    private func finalColmnWidth(startWidth: Int) -> Int {
+    private func finalColumnWidth(startWidth: Int) -> Int {
         let minimalTargetWidth = startWidth
         
         let tabWidth = self.tabWidth > 0 ? self.tabWidth: 4
@@ -117,9 +117,9 @@ public class Regularizer  {
                 : ((minimalTargetWidth / tabWidth) + 1) * tabWidth
     }
     
-    func regularize(     text: String,
-                            settings:[GroupSettings],
-                   regularExpression: NSRegularExpression) -> String {
+    func regularize(text: String,
+                settings:[GroupSettings],
+        regularExpression: NSRegularExpression) -> String {
         let lines = text.componentsSeparatedByString("\n")
         
         let parsedLines : [ParsedLineResult] = lines.map { line -> ParsedLineResult in
@@ -174,7 +174,7 @@ public class Regularizer  {
         
         var resultColumns = parsedLines
         let widths = sequence(0..<maxNumColumns).map {
-            self.finalColmnWidth(Regularizer.maxColumnWidth(parsedLines, index: $0))
+            self.finalColumnWidth(Regularizer.maxColumnWidth(parsedLines, index: $0))
         }
         
         resultColumns = Regularizer.paddColumnToWidths(resultColumns, widths: widths)
