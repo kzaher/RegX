@@ -11,8 +11,8 @@
 		C8130E3519F3F91500A13EFB /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8130E3319F3F01600A13EFB /* Functional.swift */; };
 		C86692A319F1D2FC00582722 /* RegXPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692A219F1D2FC00582722 /* RegXPlugin.swift */; };
 		C86692B619F1D41300582722 /* TestAlign.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692B219F1D41300582722 /* TestAlign.swift */; };
-		C8A6E7FD1BA039B7007D6489 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A6E7FC1BA039B7007D6489 /* String+Extensions.swift */; settings = {ASSET_TAGS = (); }; };
-		C8A6E7FE1BA039B7007D6489 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A6E7FC1BA039B7007D6489 /* String+Extensions.swift */; settings = {ASSET_TAGS = (); }; };
+		C8A6E7FD1BA039B7007D6489 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A6E7FC1BA039B7007D6489 /* String+Extensions.swift */; };
+		C8A6E7FE1BA039B7007D6489 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A6E7FC1BA039B7007D6489 /* String+Extensions.swift */; };
 		C8BC35C919EEECE800DFF3BB /* Regularizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35C819EEECE800DFF3BB /* Regularizer.swift */; };
 		C8BC35CC19EF243900DFF3BB /* RegularExpressionGroupSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BC35CB19EF243900DFF3BB /* RegularExpressionGroupSettings.swift */; };
 		C8D7D1B519F2995700483BFA /* RegularForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8D7D1B419F2995700483BFA /* RegularForm.swift */; };
@@ -205,6 +205,7 @@
 					};
 					C86692A719F1D3EA00582722 = {
 						CreatedOnToolsVersion = 6.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -444,6 +445,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/UnitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -470,6 +472,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "KZ.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/UnitTests-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

@@ -126,7 +126,7 @@ struct Configuration {
             RegularForm(name: "Macros",
                      pattern: Patterns.macroRegex,
                     shortcut: String(UnicodeScalar(NSF1FunctionKey)),
-                    modifier: NSEventModifierFlags.CommandKeyMask,
+                    modifier: NSEventModifierFlags.Command,
                     settings: [
                         GroupSettings(nil, 1),
                         GroupSettings(nil, 4),
@@ -142,7 +142,7 @@ struct Configuration {
             RegularForm(name: "ObjC Property",
                      pattern: Patterns.propertyRegex,
                     shortcut: String(UnicodeScalar(NSF2FunctionKey)),
-                    modifier: NSEventModifierFlags.CommandKeyMask,
+                    modifier: NSEventModifierFlags.Command,
                     settings: [
                         GroupSettings(nil, 1),
                         GroupSettings(nil, 0),
@@ -158,7 +158,7 @@ struct Configuration {
             RegularForm(name: "Variables",
                      pattern: Patterns.variableWithInitializer,
                     shortcut: String(UnicodeScalar(NSF3FunctionKey)),
-                    modifier: NSEventModifierFlags.CommandKeyMask,
+                    modifier: NSEventModifierFlags.Command,
                     settings: [
                         GroupSettings(nil, 2),
                         GroupSettings(nil, 0),
@@ -171,7 +171,7 @@ struct Configuration {
             RegularForm(name: "Assignments",
                 pattern: Patterns.assignments,
                 shortcut: String(UnicodeScalar(NSF4FunctionKey)),
-                modifier: NSEventModifierFlags.CommandKeyMask,
+                modifier: NSEventModifierFlags.Command,
                 settings: [
                     GroupSettings(nil, 0),
                     GroupSettings(1,   1),
@@ -182,7 +182,7 @@ struct Configuration {
             RegularForm(name: "Big ObjC macro",
                 pattern: Patterns.bigMacro,
                 shortcut: String(UnicodeScalar(NSF5FunctionKey)),
-                modifier: NSEventModifierFlags.CommandKeyMask,
+                modifier: NSEventModifierFlags.Command,
                 settings: [
                     GroupSettings(nil, 0),
                     GroupSettings(1,   0)

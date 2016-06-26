@@ -48,9 +48,9 @@ class XCodeService : NSObject {
         
         let regXMenuItem = NSMenuItem(title: "RegX", action:nil, keyEquivalent: "R")
         let mask
-            = NSEventModifierFlags.CommandKeyMask
-            .union(NSEventModifierFlags.AlternateKeyMask)
-        regXMenuItem.keyEquivalentModifierMask = Int(mask.rawValue)
+            = NSEventModifierFlags.Command
+            .union(NSEventModifierFlags.Option)
+        regXMenuItem.keyEquivalentModifierMask = mask
         
         let indexToInsert = refactorItem!.menu!.indexOfItem(refactorItem!) + 1
         
@@ -63,7 +63,7 @@ class XCodeService : NSObject {
             let formItem = NSMenuItem(title: form.name,
                                      action: "regularizeCommand:",
                               keyEquivalent: form.shortcut)
-            formItem.keyEquivalentModifierMask = Int(form.modifier.rawValue)
+            formItem.keyEquivalentModifierMask = form.modifier
                 
             formItem.target = self
             formItem.representedObject = index
