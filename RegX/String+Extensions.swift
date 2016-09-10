@@ -10,6 +10,15 @@ import Foundation
 
 extension String {
     func count() -> Int {
-        return self.startIndex.distanceTo(self.endIndex)
+        return distance(from: startIndex, to: self.endIndex)
+    }
+
+    func index(at: Int) -> Index {
+        return self.index(self.startIndex, offsetBy: at)
+    }
+
+    func character(_ index: Int) -> Character {
+        let characterIndex = self.characters.index(self.characters.startIndex, offsetBy: index)
+        return self.characters[characterIndex]
     }
 }

@@ -8,7 +8,7 @@
 
 // this is because of accessing privately defined members
 enum OptionalReflection {
-    case Failure(AnyObject!, String)
+    case Failure(AnyObject?, String)
     case Success(AnyObject!)
 
     var hasValue : Bool {
@@ -39,13 +39,18 @@ enum OptionalReflection {
     }
 }
 
-infix operator .. { associativity left precedence 160 }
-postfix operator !! { }
+precedencegroup VeryLowPrecedence {
+    associativity: left
+    lowerThan: AssignmentPrecedence
+}
+
+infix operator .. : VeryLowPrecedence
+postfix operator !!
 func .. (object: OptionalReflection, selector: String) -> OptionalReflection {
     switch(object) {
     case .Failure(_, _): return object;
     case .Success(let object):
-        let result : AnyObject! = RegX_performSelector(object, selector);
+        let result : AnyObject! = RegX_performSelector(object, selector) as AnyObject;
         return result != nil
             ? OptionalReflection.Success(result)
             : OptionalReflection.Failure(object, selector)
@@ -57,7 +62,7 @@ func .. (object: AnyObject!, selector: String) -> OptionalReflection {
         return .Failure(nil, selector)
     }
     
-    let result : AnyObject! = RegX_performSelector(object, selector);
+    let result : AnyObject! = RegX_performSelector(object, selector) as AnyObject;
     
     if result == nil {
         return .Failure(object!, selector)
@@ -82,29 +87,4 @@ func .. (object: OptionalReflection, selectors: [String]) -> OptionalReflection 
     }
     
     return .Failure(object.value, "\(selectors)")
-}
-
-// this is not the most performant implementation, but it's good enough
-func sequence<T>(range: Range<T>) -> [T] {
-    var result : [T] = []
-    for i in range {
-        result.append(i)
-    }
-    
-    return result
-}
-
-// From Haskell
-
-func zip<T1, T2>(list1: [T1], list2: [T2]) -> [(T1, T2)] {
-    var result : [(T1, T2)] = []
-    
-    for var it1 = list1.startIndex, it2 = list2.startIndex;
-        it1 < list1.endIndex && it2 < list2.endIndex;
-        it1 = it1.successor(), it2 = it2.successor() {
-            let e = (list1[it1], list2[it2])
-            result.append(e)
-    }
-    
-    return result
 }

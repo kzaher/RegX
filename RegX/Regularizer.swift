@@ -22,7 +22,7 @@ public class Regularizer  {
         func description() -> String {
             switch (self) {
             case .Raw(let line):return line
-            case .Sections(let columns):return columns.joinWithSeparator("|")
+            case .Sections(let columns):return columns.joined(separator: "|")
             }
         }
         
@@ -60,7 +60,7 @@ public class Regularizer  {
             switch (line) {
             case .Sections(let columns):
                 let transformed = zip(columns, widths).map {
-                    $0.stringByPaddingToLength($1, withString: " ", startingAtIndex: 0)
+                    ($0 as NSString).padding(toLength: $1, withPad: " ", startingAt: 0)
                 }
                 return .Sections(transformed)
             default:
@@ -76,33 +76,32 @@ public class Regularizer  {
     }
     
     private class func trimStartWhitespace(string: String) -> String {
-        var i = string.startIndex
-        for i = string.startIndex; i < string.endIndex && i < string.endIndex.predecessor(); i = i.successor() {
-            let char = string[i]
-            if !Regularizer.isWhitespace(char) {
-                break;
+        for i in 0 ..< string.characters.count {
+            let char = string.character(i)
+            if !Regularizer.isWhitespace(char: char) {
+                let range = string.index(at: i) ..< string.endIndex
+                return string.substring(with: range)
             }
         }
         
-        return string.substringWithRange(Range<String.Index>(start: i, end: string.endIndex))
+        return ""
     }
     
     private class func trimEndWhitespace(string: String) -> String {
-        var i = string.endIndex
-        for i = string.endIndex; i > string.startIndex; i = i.predecessor() {
-            let previousIndex = i.predecessor()
-            let previousCharacter = string[previousIndex]
-            if !Regularizer.isWhitespace(previousCharacter) {
-                break;
+        for i in (0 ..< string.characters.count).reversed() {
+            let char = string.character(i)
+            if !Regularizer.isWhitespace(char: char) {
+                let range = string.startIndex ..< string.index(at: i + 1)
+                return string.substring(with: range)
             }
         }
         
-        return string.substringWithRange(Range<String.Index>(start: string.startIndex, end: i))
+        return ""
     }
-    
+
     private class func trim(string: String, start: Bool, end: Bool) -> String {
-        let str1 = start ? Regularizer.trimStartWhitespace(string) : string
-        let str2 = end ? Regularizer.trimEndWhitespace(str1) : str1
+        let str1 = start ? Regularizer.trimStartWhitespace(string: string) : string
+        let str2 = end ? Regularizer.trimEndWhitespace(string: str1) : str1
         
         return str2
     }
@@ -120,7 +119,7 @@ public class Regularizer  {
     func regularize(text: String,
                 settings:[GroupSettings],
         regularExpression: NSRegularExpression) -> String {
-        let lines = text.componentsSeparatedByString("\n")
+        let lines = text.components(separatedBy: "\n")
         
         let parsedLines : [ParsedLineResult] = lines.map { line -> ParsedLineResult in
             if (line.count() == 0) {
@@ -128,7 +127,7 @@ public class Regularizer  {
             }
             
             let range = NSMakeRange(0, line.count())
-            let matches = regularExpression.matchesInString(line, options:NSMatchingOptions(), range:range)
+            let matches = regularExpression.matches(in: line, options: NSRegularExpression.MatchingOptions(), range:range)
             
             if (matches.count == 0) {
                 return ParsedLineResult.Raw(line)
@@ -139,25 +138,25 @@ public class Regularizer  {
             
             var widthGroup = 0
             for i in 1..<match.numberOfRanges {
-                let range : NSRange = match.rangeAtIndex(i)
+                let range : NSRange = match.rangeAt(i)
                 if range.location == NSNotFound {
                     continue
                 }
-                let substring = (line as NSString).substringWithRange(range)
+                let substring = (line as NSString).substring(with: range)
                 
                 let settings = settings[i - 1]
 
                 let paddingBefore = settings.paddingBefore != nil ? settings.paddingBefore! : 0
-                let paddingBeforeString = "".stringByPaddingToLength(paddingBefore, withString: " ", startingAtIndex: 0)
+                let paddingBeforeString = "".padding(toLength: paddingBefore, withPad: " ", startingAt: 0)
                 
                 let paddingAfter = settings.paddingAfter != nil ? settings.paddingAfter! : 0
-                let paddingAfterString  = "".stringByPaddingToLength(paddingAfter, withString: " ", startingAtIndex: 0)
+                let paddingAfterString  = "".padding(toLength: paddingAfter, withPad: " ", startingAt: 0)
                 
-                let trimmedString = Regularizer.trim(substring, start: settings.paddingBefore != nil, end: settings.paddingAfter != nil)
+                let trimmedString = Regularizer.trim(string: substring, start: settings.paddingBefore != nil, end: settings.paddingAfter != nil)
                 
                 tokens.append(paddingBeforeString + trimmedString + paddingAfterString)
 
-                widthGroup++
+                widthGroup += 1
             }
 
             return ParsedLineResult.Sections(tokens)
@@ -173,21 +172,21 @@ public class Regularizer  {
         }
         
         var resultColumns = parsedLines
-        let widths = sequence(0..<maxNumColumns).map {
-            self.finalColumnWidth(Regularizer.maxColumnWidth(parsedLines, index: $0))
+        let widths = (0..<maxNumColumns).map {
+            self.finalColumnWidth(startWidth: Regularizer.maxColumnWidth(parsedLines: parsedLines, index: $0))
         }
         
-        resultColumns = Regularizer.paddColumnToWidths(resultColumns, widths: widths)
+        resultColumns = Regularizer.paddColumnToWidths(parsedLines: resultColumns, widths: widths)
         
         let linesWithJoinedLineContent = resultColumns.map { line -> String in
             switch (line) {
             case .Sections(let columns):
-                return Regularizer.trimEndWhitespace(columns.joinWithSeparator(""))
+                return Regularizer.trimEndWhitespace(string: columns.joined(separator: ""))
             case .Raw(let content):
                 return content
             }
         }
       
-        return linesWithJoinedLineContent.joinWithSeparator("\n")
+        return linesWithJoinedLineContent.joined(separator: "\n")
     }
 }

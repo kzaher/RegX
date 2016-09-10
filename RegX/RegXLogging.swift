@@ -14,7 +14,7 @@ import Cocoa
     public let Log = NilLogger
 #endif
 
-func  NilLogger(format: String, args: CVarArgType...) {
+func  NilLogger(_ format: String, args: CVarArg...) {
     
 }
 
@@ -26,7 +26,7 @@ class AlertErrorPresenter: ErrorPresenter {
     func showError(errorText: String) {
         let alert = NSAlert()
         alert.messageText = errorText
-        alert.addButtonWithTitle("OK")
+        alert.addButton(withTitle: "OK")
         
         NSLog(errorText)
         alert.runModal()

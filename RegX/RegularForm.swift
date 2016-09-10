@@ -29,9 +29,9 @@ struct RegularForm  {
     func alignColumns(text: String, tabWidth: Int) -> String {
         let regularExpression = try!
         NSRegularExpression(pattern: pattern,
-                            options: NSRegularExpressionOptions.AllowCommentsAndWhitespace)
+                            options: NSRegularExpression.Options.allowCommentsAndWhitespace)
         
-        return Regularizer(tabWidth: tabWidth).regularize(text,
+        return Regularizer(tabWidth: tabWidth).regularize(text: text,
                            settings: settings,
                   regularExpression: regularExpression)
     }

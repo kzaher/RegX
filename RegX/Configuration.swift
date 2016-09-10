@@ -101,7 +101,7 @@ struct Configuration {
                 "(?# last bracket GROUP)" +
                 "   (\\))?" +
                 "(?# space after)" +
-                "\\s*\(nonterminatedVariable(false))(?:\\s*) \(initializer)$"
+                "\\s*\(nonterminatedVariable(preserveStartSpace: false))(?:\\s*) \(initializer)$"
             }
         }
 
@@ -116,7 +116,7 @@ struct Configuration {
 
         static var variableWithInitializer : String {
             get {
-                return "^\(nonterminatedVariable(true))(?:\\s*) \(initializer)$"
+                return "^\(nonterminatedVariable(preserveStartSpace: true))(?:\\s*) \(initializer)$"
             }
         }
     }
@@ -125,8 +125,8 @@ struct Configuration {
         return [
             RegularForm(name: "Macros",
                      pattern: Patterns.macroRegex,
-                    shortcut: String(UnicodeScalar(NSF1FunctionKey)),
-                    modifier: NSEventModifierFlags.Command,
+                    shortcut: String(describing: UnicodeScalar(NSF1FunctionKey)),
+                    modifier: NSEventModifierFlags.command,
                     settings: [
                         GroupSettings(nil, 1),
                         GroupSettings(nil, 4),
@@ -141,8 +141,8 @@ struct Configuration {
             ),
             RegularForm(name: "ObjC Property",
                      pattern: Patterns.propertyRegex,
-                    shortcut: String(UnicodeScalar(NSF2FunctionKey)),
-                    modifier: NSEventModifierFlags.Command,
+                    shortcut: String(describing: UnicodeScalar(NSF2FunctionKey)),
+                    modifier: NSEventModifierFlags.command,
                     settings: [
                         GroupSettings(nil, 1),
                         GroupSettings(nil, 0),
@@ -157,8 +157,8 @@ struct Configuration {
             ),
             RegularForm(name: "Variables",
                      pattern: Patterns.variableWithInitializer,
-                    shortcut: String(UnicodeScalar(NSF3FunctionKey)),
-                    modifier: NSEventModifierFlags.Command,
+                    shortcut: String(describing: UnicodeScalar(NSF3FunctionKey)),
+                    modifier: NSEventModifierFlags.command,
                     settings: [
                         GroupSettings(nil, 2),
                         GroupSettings(nil, 0),
@@ -170,8 +170,8 @@ struct Configuration {
             ),
             RegularForm(name: "Assignments",
                 pattern: Patterns.assignments,
-                shortcut: String(UnicodeScalar(NSF4FunctionKey)),
-                modifier: NSEventModifierFlags.Command,
+                shortcut: String(describing: UnicodeScalar(NSF4FunctionKey)),
+                modifier: NSEventModifierFlags.command,
                 settings: [
                     GroupSettings(nil, 0),
                     GroupSettings(1,   1),
@@ -181,8 +181,8 @@ struct Configuration {
             ),
             RegularForm(name: "Big ObjC macro",
                 pattern: Patterns.bigMacro,
-                shortcut: String(UnicodeScalar(NSF5FunctionKey)),
-                modifier: NSEventModifierFlags.Command,
+                shortcut: String(describing: UnicodeScalar(NSF5FunctionKey)),
+                modifier: NSEventModifierFlags.command,
                 settings: [
                     GroupSettings(nil, 0),
                     GroupSettings(1,   0)

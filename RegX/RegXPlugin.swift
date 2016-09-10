@@ -15,17 +15,17 @@ public class RegXPlugin: NSObject {
         static var service : XCodeService? = nil
     }
     
-    public class func pluginDidLoad(plugin: NSBundle) {
+    public class func pluginDidLoad(plugin: Bundle) {
         Log("RegXPlugin Loaded")
         
-        let sharedApplication = NSApplication.sharedApplication()
+        let sharedApplication = NSApplication.shared()
         let errorPresenter = AlertErrorPresenter()
         
         let tabWidth = { 1 } // { return Int(RegX_tabWidth()) }
         
         Instances.service = XCodeService(xcodeApp:sharedApplication,
             tabWidth: tabWidth,
-            notificationCenter: NSNotificationCenter.defaultCenter(),
+            notificationCenter: NotificationCenter.default,
             errorPresenter: errorPresenter,
             forms: Configuration.forms)
     }
