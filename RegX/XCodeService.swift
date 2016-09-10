@@ -84,7 +84,7 @@ class XCodeService : NSObject {
         }
     }
     
-    func applicationDidFinishLaunching(notification: NSNotification) {
+    func applicationDidFinishLaunching(_ notification: NSNotification) {
         Log("Application did Finish Launching")
         registerItemsAndShortcuts()
     }

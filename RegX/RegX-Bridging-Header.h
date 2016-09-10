@@ -3,3 +3,4 @@
 //
 
 #import "XCodeInternals.h"
+#import "RegXPlugin.h"

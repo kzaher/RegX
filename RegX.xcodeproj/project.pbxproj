@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C8130E3419F3F01600A13EFB /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8130E3319F3F01600A13EFB /* Functional.swift */; };
 		C8130E3519F3F91500A13EFB /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8130E3319F3F01600A13EFB /* Functional.swift */; };
+		C84354641D84582200E9D21A /* RegXPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C84354631D84582200E9D21A /* RegXPlugin.m */; };
 		C86692A319F1D2FC00582722 /* RegXPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692A219F1D2FC00582722 /* RegXPlugin.swift */; };
 		C86692B619F1D41300582722 /* TestAlign.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86692B219F1D41300582722 /* TestAlign.swift */; };
 		C8A6E7FD1BA039B7007D6489 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A6E7FC1BA039B7007D6489 /* String+Extensions.swift */; };
@@ -36,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		C8130E3319F3F01600A13EFB /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
+		C84354621D84582200E9D21A /* RegXPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegXPlugin.h; sourceTree = "<group>"; };
+		C84354631D84582200E9D21A /* RegXPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegXPlugin.m; sourceTree = "<group>"; };
 		C84DFF0D19EE775100C64E17 /* RegX.xcplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegX.xcplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C84DFF1119EE775100C64E17 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C85B2D5619F5AC8000EB8482 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -119,6 +122,8 @@
 				C8BC35C719EEECE800DFF3BB /* RegX-Bridging-Header.h */,
 				C8E8F8D519F2639700101518 /* XCodeInternals.h */,
 				C8E8F8E219F276B100101518 /* XCodeInternals.m */,
+				C84354621D84582200E9D21A /* RegXPlugin.h */,
+				C84354631D84582200E9D21A /* RegXPlugin.m */,
 			);
 			path = RegX;
 			sourceTree = "<group>";
@@ -271,6 +276,7 @@
 				C8E8F8D719F26A0500101518 /* RegXLogging.swift in Sources */,
 				C8DCC42319F40E56005B4648 /* Configuration.swift in Sources */,
 				C8E8F8E319F276B100101518 /* XCodeInternals.m in Sources */,
+				C84354641D84582200E9D21A /* RegXPlugin.m in Sources */,
 				C8E8F8C519F25E7600101518 /* XCodeService.swift in Sources */,
 				C8BC35C919EEECE800DFF3BB /* Regularizer.swift in Sources */,
 				C8130E3419F3F01600A13EFB /* Functional.swift in Sources */,

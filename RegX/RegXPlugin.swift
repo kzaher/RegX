@@ -10,7 +10,7 @@ import Foundation
 
 var service : XCodeService? = nil
 
-public class RegXPlugin: NSObject {
+extension RegXPlugin {
     private struct Instances {
         static var service : XCodeService? = nil
     }
