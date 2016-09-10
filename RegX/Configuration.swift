@@ -125,7 +125,7 @@ struct Configuration {
         return [
             RegularForm(name: "Macros",
                      pattern: Patterns.macroRegex,
-                    shortcut: String(describing: UnicodeScalar(NSF1FunctionKey)),
+                    shortcut: String([Character(UnicodeScalar(NSF1FunctionKey)!)]),
                     modifier: NSEventModifierFlags.command,
                     settings: [
                         GroupSettings(nil, 1),
@@ -141,7 +141,7 @@ struct Configuration {
             ),
             RegularForm(name: "ObjC Property",
                      pattern: Patterns.propertyRegex,
-                    shortcut: String(describing: UnicodeScalar(NSF2FunctionKey)),
+                    shortcut: String([Character(UnicodeScalar(NSF2FunctionKey)!)]),
                     modifier: NSEventModifierFlags.command,
                     settings: [
                         GroupSettings(nil, 1),
@@ -157,7 +157,7 @@ struct Configuration {
             ),
             RegularForm(name: "Variables",
                      pattern: Patterns.variableWithInitializer,
-                    shortcut: String(describing: UnicodeScalar(NSF3FunctionKey)),
+                    shortcut: String([Character(UnicodeScalar(NSF3FunctionKey)!)]),
                     modifier: NSEventModifierFlags.command,
                     settings: [
                         GroupSettings(nil, 2),
@@ -170,7 +170,7 @@ struct Configuration {
             ),
             RegularForm(name: "Assignments",
                 pattern: Patterns.assignments,
-                shortcut: String(describing: UnicodeScalar(NSF4FunctionKey)),
+                shortcut: String([Character(UnicodeScalar(NSF4FunctionKey)!)]),
                 modifier: NSEventModifierFlags.command,
                 settings: [
                     GroupSettings(nil, 0),
@@ -181,7 +181,7 @@ struct Configuration {
             ),
             RegularForm(name: "Big ObjC macro",
                 pattern: Patterns.bigMacro,
-                shortcut: String(describing: UnicodeScalar(NSF5FunctionKey)),
+                shortcut: String([Character(UnicodeScalar(NSF5FunctionKey)!)]),
                 modifier: NSEventModifierFlags.command,
                 settings: [
                     GroupSettings(nil, 0),
